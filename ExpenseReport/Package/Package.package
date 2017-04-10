@@ -1,11 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<package dslVersion="1.0.0.0" 
-        Id="6cd03cca-3c65-4c29-88ca-3dfb3ec9a4ca" 
-        solutionId="6cd03cca-3c65-4c29-88ca-3dfb3ec9a4ca" 
-        xmlns="http://schemas.microsoft.com/VisualStudio/2008/SharePointTools/PackageModel" 
-        name="ExpenseReport"
-        sharePointProductVersion="16.0">
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="6cd03cca-3c65-4c29-88ca-3dfb3ec9a4ca" solutionId="6cd03cca-3c65-4c29-88ca-3dfb3ec9a4ca" resetWebServer="false" sharePointProductVersion="16.0" name="ExpenseReport" xmlns="http://schemas.microsoft.com/VisualStudio/2008/SharePointTools/PackageModel">
   <features>
-        <featureReference itemId="b4042a9a-f1f2-4b52-b6c5-647430584bc8" />
+    <featureReference itemId="b4042a9a-f1f2-4b52-b6c5-647430584bc8" />
+    <featureReference itemId="01190da3-e5ee-4730-9818-521aef9008d4" />
   </features>
 </package>

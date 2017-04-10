@@ -1,1 +1,44 @@
 ﻿/* Placer les styles personnalisés ci-dessous */
+.ui-datepicker-calendar { 
+    display: none; 
+}
+#myclass{
+    overflow:auto;
+    width: 1600px;
+    padding-right: 0; 
+    padding-left: 0; 
+    margin-left:0;
+    margin-right:0;
+}
+#errorMsg{
+    padding:14px;
+    line-height:2;
+}
+.projectTotal{
+    width:50px;
+}
+.notShow{
+    display:none;
+}
+#Submit,#backBtn,#Reject{
+    font-size:14px;
+    color:#333;
+    border-radius:4px;
+
+}
+#Reject:hover,#Submit:hover{
+    color:#333;
+    background-color:#e6e6e6;
+    border-color:#adadad;
+
+}
+a:visited{
+    color:#333;
+}
+#approverMember{
+    display:none;
+}
+#suiteLinksBox{
+    display:none;
+}
+

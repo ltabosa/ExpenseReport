@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+    <!-- Ne modifiez pas la valeur de l'attribut Name ci-après. Si elle ne correspond pas au nom du dossier de l'élément de projet de liste, une erreur se produira à l'exécution du projet. -->
+    <ListTemplate
+        Name="ExpenseSheet"
+        Type="100"
+        BaseType="0"
+        OnQuickLaunch="TRUE"
+        SecurityBits="11"
+        Sequence="410"
+        DisplayName="ExpenseSheet"
+        Description="Ma définition de liste"
+        Image="/_layouts/15/images/itgen.png"/>
+</Elements>

@@ -8,30 +8,35 @@
 
 <%-- Le balisage et le script de l'élément Content suivant seront placés dans la partie <head> de la page --%>
 <asp:Content ContentPlaceHolderID="PlaceHolderAdditionalPageHead" runat="server">
-    <script type="text/javascript" src="../Scripts/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="../Scripts/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="../Scripts/jquery-1.12.0.js"></script>
     <SharePoint:ScriptLink name="sp.js" runat="server" OnDemand="true" LoadAfterUI="true" Localizable="false" />
     <meta name="WebPartPageExpansion" content="full" />
 
     <!-- Ajoutez vos styles CSS au fichier suivant -->
     <link rel="Stylesheet" type="text/css" href="../Content/App.css" />
+    <link rel="Stylesheet" type="text/css" href="../Content/bootstrap.min.css" />
 
     <!-- Ajoutez votre code JavaScript au fichier suivant -->
     <script type="text/javascript" src="../Scripts/App.js"></script>
+    <script type="text/javascript" src="../Scripts/bootstrap.min.js"></script>
+
 </asp:Content>
 
 <%-- Le balisage de l'élément Content suivant sera placé dans la partie TitleArea de la page --%>
 <asp:Content ContentPlaceHolderID="PlaceHolderPageTitleInTitleArea" runat="server">
-    Page Title
+    Expense Report
 </asp:Content>
 
 <%-- Le balisage et le script de l'élément Content suivant seront placés dans la partie <body> de la page --%>
 <asp:Content ContentPlaceHolderID="PlaceHolderMain" runat="server">
 
-    <div>
-        <p id="message">
-            <!-- Le contenu suivant sera remplacé par le nom de l'utilisateur durant l'exécution de l'application. Consultez App.js -->
-            initializing...
-        </p>
-    </div>
+    <br/><br/>
+
+    <a href="../Pages/NewExpenseReport.aspx" class="btn btn-default " role="button">NEW EXPENSE REPORT</a>
+
+    <br/><br/>
+
+    <div id="results"></div>
 
 </asp:Content>

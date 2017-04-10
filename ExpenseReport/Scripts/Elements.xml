@@ -2,9 +2,19 @@
 <Elements xmlns="http://schemas.microsoft.com/sharepoint/">
   <Module Name="Scripts">
     <File Path="Scripts\App.js" Url="Scripts/App.js" ReplaceContent="TRUE" />
-    <File Path="Scripts\jquery-1.9.1.min.map" Url="Scripts/jquery-1.9.1.min.map" ReplaceContent="TRUE" />
-    <File Path="Scripts\jquery-1.9.1.min.js" Url="Scripts/jquery-1.9.1.min.js" ReplaceContent="TRUE" />
-    <File Path="Scripts\jquery-1.9.1.js" Url="Scripts/jquery-1.9.1.js" ReplaceContent="TRUE" />
-    <File Path="Scripts\jquery-1.9.1.intellisense.js" Url="Scripts/jquery-1.9.1.intellisense.js" ReplaceContent="TRUE" />
+    <File Path="Scripts\jquery-3.1.1.slim.min.map" Url="Scripts/jquery-3.1.1.slim.min.map" ReplaceContent="TRUE" />
+    <File Path="Scripts\jquery-3.1.1.slim.min.js" Url="Scripts/jquery-3.1.1.slim.min.js" ReplaceContent="TRUE" />
+    <File Path="Scripts\jquery-3.1.1.slim.js" Url="Scripts/jquery-3.1.1.slim.js" ReplaceContent="TRUE" />
+    <File Path="Scripts\jquery-3.1.1.min.map" Url="Scripts/jquery-3.1.1.min.map" ReplaceContent="TRUE" />
+    <File Path="Scripts\jquery-3.1.1.min.js" Url="Scripts/jquery-3.1.1.min.js" ReplaceContent="TRUE" />
+    <File Path="Scripts\jquery-3.1.1.js" Url="Scripts/jquery-3.1.1.js" ReplaceContent="TRUE" />
+    <File Path="Scripts\jquery-3.1.1.intellisense.js" Url="Scripts/jquery-3.1.1.intellisense.js" ReplaceContent="TRUE" />
+    <File Path="Scripts\jquery-1.12.0.js" Url="Scripts/jquery-1.12.0.js" ReplaceContent="TRUE" />
+    <File Path="Scripts\bootstrap.min.js" Url="Scripts/bootstrap.min.js" ReplaceContent="TRUE" />
+    <File Path="Scripts\jquery-ui-1.12.1.min.js" Url="Scripts/jquery-ui-1.12.1.min.js" ReplaceContent="TRUE" />
+    <File Path="Scripts\jquery-ui-1.12.1.js" Url="Scripts/jquery-ui-1.12.1.js" ReplaceContent="TRUE" />
+    <File Path="Scripts\NewExpenseReport.js" Url="Scripts/NewExpenseReport.js" ReplaceContent="TRUE" />
+    <File Path="Scripts\AddAttachmentFile.js" Url="Scripts/AddAttachmentFile.js" ReplaceContent="TRUE" />
+    <File Path="Scripts\jquery.SPServices-2014.02.min.js" Url="Scripts/jquery.SPServices-2014.02.min.js" ReplaceContent="TRUE" />
   </Module>
 </Elements>

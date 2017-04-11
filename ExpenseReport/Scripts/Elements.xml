@@ -16,5 +16,6 @@
     <File Path="Scripts\NewExpenseReport.js" Url="Scripts/NewExpenseReport.js" ReplaceContent="TRUE" />
     <File Path="Scripts\AddAttachmentFile.js" Url="Scripts/AddAttachmentFile.js" ReplaceContent="TRUE" />
     <File Path="Scripts\jquery.SPServices-2014.02.min.js" Url="Scripts/jquery.SPServices-2014.02.min.js" ReplaceContent="TRUE" />
+    <File Path="Scripts\EditExpenseReport.js" Url="Scripts/EditExpenseReport.js" ReplaceContent="TRUE" />
   </Module>
 </Elements>

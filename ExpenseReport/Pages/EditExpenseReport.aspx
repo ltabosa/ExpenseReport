@@ -21,10 +21,10 @@
     <!-- Ajoutez vos styles CSS au fichier suivant -->
     <link rel="Stylesheet" type="text/css" href="../Content/App.css" />
     <link rel="Stylesheet" type="text/css" href="../Content/bootstrap.min.css" />
-    <link type="text/css" href="../Content/jquery-ui.css" rel="stylesheet" />
+    <link rel="Stylesheet" type="text/css" href="../Content/jquery-ui.css" />
 
     <!-- Ajoutez votre code JavaScript au fichier suivant -->
-    <script type="text/javascript" src="../Scripts/NewExpenseReport.js"></script>
+    <script type="text/javascript" src="../Scripts/EditExpenseReport.js"></script>
     <script type="text/javascript" src="../Scripts/AddAttachmentFile.js"></script>
     <script type="text/javascript" src="../Scripts/bootstrap.min.js"></script>
     <script type="text/javascript" src="../Scripts/jquery-ui-1.12.1.min.js"></script>
@@ -33,7 +33,7 @@
 
 <%-- Le balisage de l'élément Content suivant sera placé dans la partie TitleArea de la page --%>
 <asp:Content ContentPlaceHolderID="PlaceHolderPageTitleInTitleArea" runat="server">
-    New Expense Report
+    Edit Expense Report
 </asp:Content>
 
 <asp:Content ContentPlaceHolderID="PlaceHolderMain" runat="server">
@@ -41,39 +41,31 @@
     <br />
 
     <div id="errorMsg"></div>
-    <div id="warningMsg"></div>
+    <div id="sucessMsg"></div>
 
     <form autocomplete="off">
+
         <div class="form-group row">
             <div class="col-xs-6">
                 <a href="../Pages/Default.aspx" id="backBtn" class="btn btn-default " role="button">BACK</a>
-
                 <input name="Submit" id="Submit" type="button" value="SAVE" class="btn btn-default btn-lg" />
 
             </div>
         </div>
 
+
         <div class="form-group row">
             <div class="col-xs-2">
                 <label for="txtMonth">Month</label>
-                <input type="text" name="txtMonth" id="txtMonth" class="date-picker-month form-control changeDate" onchange="numberOfDaysInMonth()" />
+                <input type="text" readonly name="txtMonth" id="txtMonth" class="date-picker-month form-control changeDate" onchange="numberOfDaysInMonth()" />
             </div>
         </div>
         <div class="form-group row">
             <div class="col-xs-2">
                 <label for="txtYear">Year</label>
-                <input type="text" name="txtFromYear" id="txtYear" class="date-picker-year form-control changeDate" />
+                <input type="text" readonly name="txtFromYear" id="txtYear" class="date-picker-year form-control changeDate" />
             </div>
         </div>
-
-
-        <div class="form-group row" id="approverMember">
-            <div class="col-xs-2">
-                <label for="SdfPeoplePicker">User</label>
-                <div id="peoplePickerDivLinMan" title="User_"></div>
-            </div>
-        </div>
-
         <div class="form-group row">
             <div class="col-xs-2">
                 <label for="customFileUploadControl">File input</label>
@@ -81,6 +73,7 @@
             </div>
         </div>
 
+        <div id="result"></div>
         <div class="container" id="myclass">
 
             <table class="form-group table-bordered table-reflow">
@@ -108,11 +101,13 @@
                 <tbody id="msg"></tbody>
             </table>
 
-            <p class=".col-md-8">New: <a href="#" id="otherExpense"><span class="glyphicon glyphicon-plus-sign"></span></a>/ Delete Selected Lines: <a href="#" id="deleteLine"><span class="glyphicon glyphicon glyphicon-minus-sign"></span></a></p>
+            <p id="newDeleteButtons" class=".col-md-8">New: <a href="#" id="otherProject"><span class="glyphicon glyphicon-plus-sign"></span></a>/ Delete Selected Lines: <a href="#" id="deleteLine"><span class="glyphicon glyphicon glyphicon-minus-sign"></span></a></p>
 
         </div>
+
         <br />
         <p><strong>Total: <span id="totalHour">0</span></strong></p>
+
     </form>
     <br />
     <br />

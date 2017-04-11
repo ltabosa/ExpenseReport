@@ -130,6 +130,7 @@
     <Content Include="Lists\StatusList\Elements.xml" />
     <Content Include="Lists\StatusList\Schema.xml" />
     <Content Include="Lists\StatusList\StatusListInstance\Elements.xml" />
+    <Content Include="Pages\EditExpenseReport.aspx" />
     <Content Include="Pages\Elements.xml" />
     <Content Include="Pages\Default.aspx" />
     <None Include="SharePointProjectItem.spdata">
@@ -145,6 +146,7 @@
     <Content Include="Pages\NewExpenseReport.aspx" />
     <Content Include="Scripts\AddAttachmentFile.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\EditExpenseReport.js" />
     <Content Include="Scripts\Elements.xml" />
     <Content Include="Scripts\App.js" />
     <Content Include="Scripts\jquery-1.12.0.js" />

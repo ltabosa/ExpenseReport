@@ -7,7 +7,7 @@ var itCameFromNewTimesheet = false;
 function attachFileToMyTimesheet(userId, monthSubmit, yearSubmit) {
     
         var context = new SP.ClientContext.get_current();
-        var oList = context.get_web().get_lists().getByTitle('MyTimesheet');
+        var oList = context.get_web().get_lists().getByTitle('StatusList');
         var camlQuery = new SP.CamlQuery();
         camlQuery.set_viewXml('<View>' +
                                 '<Query>' +
@@ -15,7 +15,7 @@ function attachFileToMyTimesheet(userId, monthSubmit, yearSubmit) {
                                         '<And>' +
                                             '<And>' +
                                                 '<Eq>' +
-                                                    '<FieldRef Name=\'Title\'/>' +
+                                                    '<FieldRef Name=\'Month\'/>' +
                                                     '<Value Type=\'Text\'>' + monthSubmit + '</Value>' +
                                                 '</Eq>' +
                                                 '<Eq>' +
@@ -24,7 +24,7 @@ function attachFileToMyTimesheet(userId, monthSubmit, yearSubmit) {
                                                 '</Eq>' +
                                             '</And>' +
                                              '<Eq>' +
-                                                 '<FieldRef Name=\'ReportOwner\' LookupId=\'TRUE\'/>' +
+                                                 '<FieldRef Name=\'AssignedTo\' LookupId=\'TRUE\'/>' +
                                                  '<Value Type=\'User\'>' + userId + '</Value>' +
                                              '</Eq>' +
                                          '</And>' +
@@ -59,7 +59,7 @@ function onQuerySucceededAddFileToListMyTimesheet() {
 ///******************************************************************************
 function addFileToListMyTimesheet(itemId) {
 
-    var listTitle = 'MyTimesheet';
+    var listTitle = 'StatusList';
     //var itemId = 1;
     var fileInput = document.getElementById("customFileUploadControl");
     var file = fileInput.files[0];
@@ -68,7 +68,8 @@ function addFileToListMyTimesheet(itemId) {
           function () {
               console.log('Attachment file has been uploaded');
               if (itCameFromNewTimesheet) {
-                  window.location.href = '../Pages/EditTimesheet.aspx?ID=' + itemId + '&Status=InProgress&Month=' + monthSubmit + '&Year=' + yearSubmit + '';
+                  window.location.href = '../Pages/Default.aspx';
+                  //window.location.href = '../Pages/EditTimesheet.aspx?ID=' + itemId + '&Status=InProgress&Month=' + monthSubmit + '&Year=' + yearSubmit + '';
               }
               //location.reload();
           },
@@ -77,7 +78,8 @@ function addFileToListMyTimesheet(itemId) {
           });
     } else {
         if (itCameFromNewTimesheet) {
-            window.location.href = '../Pages/EditTimesheet.aspx?ID=' + itemId + '&Status=InProgress&Month=' + monthSubmit + '&Year=' + yearSubmit + '';
+            window.location.href = '../Pages/Default.aspx';
+            //window.location.href = '../Pages/EditTimesheet.aspx?ID=' + itemId + '&Status=InProgress&Month=' + monthSubmit + '&Year=' + yearSubmit + '';
         }
     }
     function processUpload(fileInput, listTitle, itemId, success, error) {
@@ -173,7 +175,7 @@ function getWebProperties() {
     var ctx = new SP.ClientContext.get_current();
 
     var web = ctx.get_web();
-    var attachmentFolder = web.getFolderByServerRelativeUrl('Lists/MyTimesheet/Attachments/' + itemId);
+    var attachmentFolder = web.getFolderByServerRelativeUrl('Lists/StatusList/Attachments/' + itemId);
     attachmentFiles = attachmentFolder.get_files();
     ctx.load(attachmentFiles);
 
@@ -203,7 +205,7 @@ function getWebProperties() {
 }
 
 function deleteAttach(fileName) {
-    var listTitle = 'MyTimesheet'
+    var listTitle = 'StatusList'
     var itemId = timesheetId;
 
     var ctx = SP.ClientContext.get_current();
@@ -222,8 +224,8 @@ function deleteAttach(fileName) {
 }
 
 //********************************************************************************************************
-function getLastItemId(monthSubmit, yearSubmit) {
-    var userId = _spPageContextInfo.userId;
+function getLastItemId(monthSubmit, yearSubmit, userId) {
+    //var userId = _spPageContextInfo.userId;
     var caml = "<View><Query><Where>"
         + "<Eq><FieldRef Name='Author' LookupId='TRUE' /><Value Type='Integer'>"
         + userId + "</Value></Eq></Where>"
@@ -231,7 +233,7 @@ function getLastItemId(monthSubmit, yearSubmit) {
         + "</Query><RowLimit>1</RowLimit></View>";
     var ctx = SP.ClientContext.get_current()
     var web = ctx.get_web()
-    var list = web.get_lists().getByTitle("MyTimesheet")
+    var list = web.get_lists().getByTitle("StatusList")
     var query = new SP.CamlQuery();
     query.set_viewXml(caml);
     var items = list.getItems(query);

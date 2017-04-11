@@ -27,7 +27,7 @@
     });
     //Delete Selected Lines
     $("#deleteLine").click(function () {
-        //deleteLineOfProject();
+        deleteLineOfProject();
     });
     $("#Submit").click(function () {
         //get month and year
@@ -40,49 +40,35 @@
         if (submitClicked) {
             submitClicked = false;
             var errorMes = "";
-            for (var i = 0; i < (count - 1) ; i++) {
-                if (((array[i][1] == null) || (array[i][1] == undefined)) && (array[i][35] !== "Deleted")) {
+            for (var i = 0; i < count ; i++) {
+                if (((array[i][1] == null) || (array[i][1] == undefined)) && (array[i][14] !== "Deleted")) {
                     errorMes = '<div class="alert alert-danger">' +
                             '<strong>Atention!</strong> Please fill the field <strong>Project</strong>.' +
                         '</div>';
                     submitClicked = true;
 
-                } else if ((array[i][3] == 0) && (array[i][35] !== "Deleted")) {
+                }
+                if (((array[i][2] == null) || (array[i][2] == undefined) || (array[i][2] == "")) && (array[i][14] !== "Deleted")) {
                     errorMes += '<div class="alert alert-danger">' +
-                            '<strong>Atention!</strong> You must have one hour in <strong>' + array[i][1] + '</strong> project.' +
+                            '<strong>Atention!</strong> Please fill the field <strong>Date</strong>.' +
                         '</div>';
                     submitClicked = true;
-                }
-                if (i > 0) {
-                    for (var k = 0; k < i; k++) {
-                        if (((array[i][1] == array[k][1]) && (array[i][2] == array[k][2])) && (array[i][35] !== "Deleted")) {
-                            errorMes = '<div class="alert alert-danger">' +
-                                            '<strong>Atention!</strong> You already have this project and hour type.' +
-                                        '</div>';
-                            submitClicked = true;
-                        }
-                    }
 
                 }
             }
             if (sumCol == 0) {
-                errorMes = '<div class="alert alert-danger">' +
+                errorMes += '<div class="alert alert-danger">' +
                                '<strong>Atention!</strong> You can not send this project empty.' +
                            '</div>';
                 submitClicked = true;
             }
             $("#errorMsg").html(errorMes);
             if (errorMes == "") {
-                var warning = "";
-                warning = '<div class="alert alert-warning">' +
-                               '<strong>Wait!</strong> Your form is being submitted...' +
-                           '</div>';
-                $("#warningMsg").html(warning);
                 //get user ID
                 var users = $('#peoplePickerDivLinMan_TopSpan_HiddenInput').val();
                 users = users.substring(1, users.length - 1);
                 var obj = JSON.parse(users);
-                //getUserId(obj.AutoFillKey);
+                getUserId(obj.AutoFillKey);
             }
         }//submitclicked
     });
@@ -124,7 +110,9 @@ function monthYearFieldFill() {
     var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     document.getElementById('txtMonth').value = monthNames[d.getMonth()];
 };
-
+/**
+*Get Infos in Project List
+*/
 function lookupProject() {
     var ctx = new SP.ClientContext.get_current();
     //var siteUrl = 'https://siicanada.sharepoint.com/agency/direction/';
@@ -153,15 +141,20 @@ function lookupProject() {
                                 '<FieldRef Name=\'Details\' />' +
                                 '<FieldRef Name=\'PNum\' />' +
                                 '<FieldRef Name=\'Amdt0\' />' +
+                                '<FieldRef Name=\'Bench\' />' +
                             '</ViewFields>' +
                           '</View>');
     window.collListItem = oList.getItems(camlQuery);
-    ctx.load(collListItem, 'Include(Id, Title, Cat, Final_x0020_Client, Details, PNum, Amdt0)');
+    ctx.load(collListItem, 'Include(Id, Title, Cat, Final_x0020_Client, Details, PNum, Amdt0, Bench)');
     ctx.executeQueryAsync(Function.createDelegate(this, window.onQueryLookupSucceeded),
     Function.createDelegate(this, window.onQueryFailed));
 
 }
-
+/**
+*Get error message if something goes bad
+ * @param {type} sender - The sender.
+ * @param {type} args - The arguments.
+*/
 function onQueryFailed(sender, args) {
     //SP.UI.Notify.addNotification('Request failed. ' + args.get_message() + '\n' +
     //args.get_stackTrace(), true);
@@ -177,7 +170,16 @@ function onQueryLookupSucceeded(sender, args) {
     var countProjects = 0;
     while (listEnumerator.moveNext()) {
         var oListItem = listEnumerator.get_current();
-        projectArray[countProjects] = "<option value='" + oListItem.get_id() + "' label='" + oListItem.get_item('Final_x0020_Client').Label + " " + oListItem.get_item('Title') + " " + oListItem.get_item('PNum') + "-" + oListItem.get_item('Amdt0') + "'>" + oListItem.get_id() + "</option>";
+        projectArray[countProjects] = new Array();
+        projectArray[countProjects][0] = "<option value='" + oListItem.get_id() + "' label='" + oListItem.get_item('Final_x0020_Client').Label + " " + oListItem.get_item('Title') + " " + oListItem.get_item('PNum') + "-" + oListItem.get_item('Amdt0') + "'>" + oListItem.get_id() + "</option>";
+        projectArray[countProjects][1] = oListItem.get_id();
+        projectArray[countProjects][2] = oListItem.get_item('Title');
+        projectArray[countProjects][3] = oListItem.get_item('Cat');
+        projectArray[countProjects][4] = oListItem.get_item('Final_x0020_Client').Label;
+        projectArray[countProjects][5] = oListItem.get_item('Details');
+        projectArray[countProjects][6] = oListItem.get_item('PNum');
+        projectArray[countProjects][7] = oListItem.get_item('Amdt0');
+        projectArray[countProjects][8] = oListItem.get_item('Bench');
         countProjects++;
         //listInfo += "<option value='" + oListItem.get_id() + "' label='" + oListItem.get_item('Final_x0020_Client').Label + " " + oListItem.get_item('Title') + " " + oListItem.get_item('PNum') + "-" + oListItem.get_item('Amdt0') + "'>" + oListItem.get_id() + "</option>";
     }
@@ -233,7 +235,9 @@ function setLoggedInUser() {
         alert("error");
     }
 }
-
+/**
+*Check if user logged in is in Approbateurs group to show, or not, the field USER
+*/
 function CheckMemberInAdminGroup() {
     var clientContext = new SP.ClientContext.get_current();
     this.currentUser = clientContext.get_web().get_currentUser();
@@ -268,7 +272,7 @@ function newLineOfProject() {
                     '<td><select class="form-control results" id="col' + i + '1">';
 
         for (var j = 0; j < projectArray.length; j++) {
-            newLine += projectArray[j];
+            newLine += projectArray[j][0];
         }
 
         newLine += '</select>' +
@@ -318,7 +322,7 @@ function newLineOfProject() {
     $(".form-control").focusout(function () {
         updateLineTotal();
     });
-
+    
     //lookupProject();
 
 }
@@ -327,9 +331,9 @@ function newLineOfProject() {
 */
 function fillArray() {
     if (count != 0) {
-        array[count - 1] = new Array(15);
+        array[count - 1] = new Array(14);
         for (var i = 0; i < count; i++) {
-            for (var j = 0; j < 15; j++) {
+            for (var j = 0; j < 14; j++) {
                 array[i][j] = $('#col' + i + '' + j).val();
             }
         }
@@ -381,4 +385,225 @@ function updateProjects() {
             document.getElementById('col' + i + '1').value = array[i][1];
         }
     }
+}
+/**
+*Delete unwanted line
+*/
+function deleteLineOfProject() {
+    for (var i = 0; i < count; i++) {
+        if ($('#col' + i + '0').is(':checked')) {
+            $("#row" + i).hide();
+            array[i][14] = "Deleted";
+            updateLineTotal();
+        }
+    }
+}
+/**
+*Retrieve user ID
+*@param {type} loginName - The login name of the user.
+*/
+function getUserId(loginName) {
+    var context = new SP.ClientContext.get_current();
+    this.user = context.get_web().ensureUser(loginName);
+    context.load(this.user);
+    context.executeQueryAsync(
+         Function.createDelegate(null, ensureUserSuccess),
+         Function.createDelegate(null, onFail)
+    );
+}
+/**
+*Query in Status List and filter by userId
+*/
+function ensureUserSuccess() {
+    userId = this.user.get_id();
+
+    var context = new SP.ClientContext.get_current();
+    var oList = context.get_web().get_lists().getByTitle('StatusList');
+    var camlQuery = new SP.CamlQuery();
+    camlQuery.set_viewXml('<View>' +
+                            '<Query>' +
+                                '<Where>' +
+                                            '<Eq>' +
+                                                '<FieldRef Name=\'AssignedTo\' LookupId=\'TRUE\'/>' +
+                                                '<Value Type=\'User\'>' + userId + '</Value>' +
+                                            '</Eq>' +
+                                '</Where>' +
+                            '<OrderBy>' +
+                                '<FieldRef Name=\'Title\' Ascending=\'TRUE\' />' +
+                                '</OrderBy>' +
+                            '</Query>' +
+                            '<ViewFields>' +
+                                '<FieldRef Name=\'Id\' />' +
+                                '<FieldRef Name=\'Month\' />' +
+                                '<FieldRef Name=\'Year\' />' +
+                                '<FieldRef Name=\'Total\' />' +
+                                '<FieldRef Name=\'Status\' />' +
+                            '</ViewFields>' +
+                          '</View>');
+    window.collListItem = oList.getItems(camlQuery);
+    context.load(collListItem, 'Include(Id, Month, Year, Total, Status)');
+    context.executeQueryAsync(Function.createDelegate(this, window.onQuerySucceededCreateItems),
+    Function.createDelegate(this, window.onQueryFailed));
+
+
+
+}
+/**
+*Get error message if something goes bad
+ * @param {type} sender - The sender.
+ * @param {type} args - The arguments.
+*/
+function onFail(sender, args) {
+    alert('Query failed. Error: ' + args.get_message());
+}
+/**
+*Check if exists something in statuslist for the month, year and user filtered
+*/
+function onQuerySucceededCreateItems() {
+    var listEnumerator = collListItem.getEnumerator();
+    var control = 0;
+    while (listEnumerator.moveNext()) {
+        var oListItem = listEnumerator.get_current();
+        //Check if the Month And Year is Already in Draft Mode
+        if (oListItem.get_item('Month') == monthSubmit && oListItem.get_item('Year') == yearSubmit) {
+            control++;
+        }
+    }
+
+    if (control == 0) {
+        //getProjectInfo();
+        var warning = "";
+        warning = '<div class="alert alert-warning">' +
+                       '<strong>Wait!</strong> Your form is being submitted...' +
+                   '</div>';
+        $("#warningMsg").html(warning);
+        console.log(array);
+        console.log(projectArray);
+        updateStatusList(userId);
+        updateExpenseSheet(userId);
+    } else {
+        var errorMes = '<div class="alert alert-danger">' +
+                            '<strong>Atention!</strong> You have already one draft for ' + monthSubmit + ' ' + yearSubmit + '.' +
+                        '</div>';
+        submitClicked = true;
+
+        $("#errorMsg").html(errorMes);
+    }
+}
+/**
+*Add new item in Status List
+*/
+function updateStatusList(user) {
+    var assignedToVal = new SP.FieldUserValue();
+    assignedToVal.set_lookupId(user);
+
+    //update My Timesheet list
+    var clientContext = new SP.ClientContext.get_current();
+
+    var oList = clientContext.get_web().get_lists().getByTitle('StatusList');
+
+    var itemCreateInfo = new SP.ListItemCreationInformation();
+    this.oListItem = oList.addItem(itemCreateInfo);
+
+    oListItem.set_item('Month', monthSubmit);
+    oListItem.set_item('Year', yearSubmit);
+    oListItem.set_item('Total', sumCol);
+    oListItem.set_item('Status', "In Progress");
+    oListItem.set_item('AssignedTo', assignedToVal);
+
+    for (var i = 0; i < monthsInNumber.length; i++) {
+        if (monthsInNumber[i][0] == monthSubmit) {
+            oListItem.set_item('MonthNumber', monthsInNumber[i][1]);
+        }
+    }
+
+    oListItem.update();
+
+    clientContext.load(oListItem);
+
+    clientContext.executeQueryAsync(Function.createDelegate(this, this.onQueryCreateMyTimesheet), Function.createDelegate(this, this.onFail));
+
+}
+/**
+*
+*/
+function onQueryCreateMyTimesheet() {
+    // return to MyTimesheet
+    attachFileToMyTimesheet(userId, monthSubmit, yearSubmit);
+}
+/**
+*Add new item in Expense Sheet
+*/
+function updateExpenseSheet(user) {
+
+    var assignedToVal = new SP.FieldUserValue();
+    assignedToVal.set_lookupId(user);
+
+
+    while (colCreated < count) {
+        if (array[colCreated][14] != "Deleted") {
+
+            var clientContext = new SP.ClientContext.get_current();
+
+            //update Expense Sheet
+            var oList = clientContext.get_web().get_lists().getByTitle('ExpenseSheet');
+
+            var itemCreateInfo = new SP.ListItemCreationInformation();
+            this.oListItem = oList.addItem(itemCreateInfo);
+
+            for (var i = 0; i < projectArray.length; i++) {
+                if (projectArray[i][1] == array[colCreated][1]) {
+                    //already good to go
+                    //oListItem.set_item('ProjectTitle', projectArray[i][2]);
+
+
+                    //oListItem.set_item('PNum', projectInfo[colCreated][0]);
+                    //oListItem.set_item('Amdt', projectInfo[colCreated][1]);
+                    //oListItem.set_item('Cat', projectInfo[colCreated][3]);
+                    //oListItem.set_item('FinalClient', projectInfo[colCreated][4]);
+                    //oListItem.set_item('ProjectDetails', projectInfo[colCreated][5]);
+                    //oListItem.set_item('Bench', projectInfo[colCreated][6]);
+                }
+            }
+            
+
+            oListItem.set_item('Project', array[colCreated][1]);
+            oListItem.set_item('Date1', array[colCreated][2]);
+            oListItem.set_item('Month', monthSubmit);
+            oListItem.set_item('Year', yearSubmit);
+            oListItem.set_item('Recipient', array[colCreated][3]);
+            oListItem.set_item('Description1', array[colCreated][4]);
+            oListItem.set_item('Province', array[colCreated][5]);
+            oListItem.set_item('ExpensesType', array[colCreated][6]);
+            oListItem.set_item('Amount', array[colCreated][7]);
+            oListItem.set_item('Tip', array[colCreated][8]);
+            oListItem.set_item('TPS', array[colCreated][9]);
+            oListItem.set_item('TVQ', array[colCreated][10]);
+            oListItem.set_item('Total', array[colCreated][11]);
+            oListItem.set_item('ExchangeRate', array[colCreated][12]);
+            oListItem.set_item('TotalAfterRate', array[colCreated][13]);
+            oListItem.set_item('AssignedTo', assignedToVal);
+
+            oListItem.update();
+
+            clientContext.load(oListItem);
+
+            clientContext.executeQueryAsync(Function.createDelegate(this, this.onQueryCreateSucceeded), Function.createDelegate(this, this.onFail));
+
+            colCreated++;
+
+        } else {
+            colCreated++;
+            onQueryCreateSucceeded();
+        }
+    }
+}
+/**
+*If there's no more lines to add go to getLastItemId to add attachments
+*/
+function onQueryCreateSucceeded() {
+    if (colCreated == count ) {
+        getLastItemId(monthSubmit, yearSubmit,userId);
+    }
+
 }

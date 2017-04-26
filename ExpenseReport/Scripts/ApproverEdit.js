@@ -5,44 +5,36 @@
     month = GetUrlKeyValue('Month', false);
     year = GetUrlKeyValue('Year', false);
     status = GetUrlKeyValue('Status', false);
+    user = GetUrlKeyValue('User', false);
+    userNameForUrl = user;
     projectInfo = new Array();
     projectCount = 0;
     sumCol = 0;
     count = 0;
-    colCreated = 0;
     countLinesToDelete = 0;
-    dateRequest = "";
+    numberOfLinesInArray = 0;
     array = new Array();
     deleteLineArray = new Array();
     submitClicked = true;
     projectArray = new Array();
 
-    if (status == "Approved") {
-        $("#Submit").hide();
-        $("#newDeleteButtons").hide();
-
-        var errorMes = '<div class="alert alert-success">' +
-                            '<strong>Sucess!</strong> Your Expense for ' + month + ' ' + year + ' is approved.' +
-                        '</div>';
-        $("#errorMsg").html(errorMes);
-    } else if (status == "InProgress") {
-        var sucess = '<div class="alert alert-success">' +
-                            '<strong>Sucess!</strong> Your Expense for ' + month + ' ' + year + ' is saved.' +
-                        '</div>';
-        $("#sucessMsg").html(sucess);
-    }
     //go back to beginning if take url without month and year 
     if (!month || !year) {
-        window.location.href = 'Default.aspx';
+        window.location.href = 'ApproverView.aspx';
+    }
+    if (status == "InProgress") {
+        var sucess = '<div class="alert alert-success">' +
+                            '<strong>Sucess!</strong> The Expense for ' + userNameForUrl + ' in ' + month + ' ' + year + ' is approved.' +
+                        '</div>';
+        $("#sucessMsg").html(sucess);
     }
 
     //Show Month and Year In the Input
     $('#txtMonth').val(month);
     $('#txtYear').val(year);
+    $('#txtUser').val(user);
 
-    SP.SOD.executeFunc('sp.js', 'SP.ClientContext', takeCurrentUser);//is not working
-    
-    SP.SOD.executeFunc('sp.js', 'SP.ClientContext', fillArrayAndTakeCount);
+    SP.SOD.executeFunc('sp.js', 'SP.ClientContext', retrieveUserData);
 
     //otherProject
     $("#otherProject").click(function () {
@@ -54,17 +46,25 @@
         deleteLineOfProject();
     });
 
+
+    $("#Reject").click(function () {
+        myTimesheetReject();
+    });
+
     $("#Submit").click(function () {
         addFileToListMyTimesheet(timesheetId);
-        //prevent clicks
+
+        //prevent multiple clicks
         if (submitClicked) {
             submitClicked = false;
+
             //update array with the newest info
             fillArray();
+
             var errorMes = "";
 
             for (var i = 0; i < count ; i++) {
-                if (((array[i][1] == null) || (array[i][1] == undefined)) && (array[i][14] !== "Deleted")) {
+                if (((array[i][1] == null) || (array[i][1] == undefined)) && (array[i][36] !== "Deleted")) {
                     errorMes = '<div class="alert alert-danger">' +
                             '<strong>Atention!</strong> Please fill the field <strong>Project</strong>.' +
                         '</div>';
@@ -78,6 +78,16 @@
                     submitClicked = true;
 
                 }
+                //if (i > 0) {
+                //    for (var k = 0; k < i; k++) {
+                //        if (((array[i][1] == array[k][1]) && (array[i][3] == array[k][3])) && (array[i][36] !== "Deleted")) {
+                //            errorMes = '<div class="alert alert-danger">' +
+                //                            '<strong>Atention!</strong> You already have this project and hour type.' +
+                //                        '</div>';
+                //            submitClicked = true;
+                //        }
+                //    }
+                //}
             }
             if (sumCol == 0) {
                 errorMes = '<div class="alert alert-danger">' +
@@ -92,162 +102,46 @@
                                '<strong>Wait!</strong> Your form is being submitted...' +
                            '</div>';
                 $("#warningMsg").html(warning);
-                //save info in list
-                console.log(deleteLineArray);
+                //colCreated = 0;
+                //getProjectInfo();
                 console.log(array);
                 console.log(projectArray);
-                //getProjectInfo();
-                //colCreated = 0;
-                updateStatusList();
-                updateExpenseSheet(currentUser);
             }
         }
     });
 });
-
-function updateStatusList() {
-
-    //update My Timesheet list
-    var clientContext = new SP.ClientContext.get_current();
-
-    var oList = clientContext.get_web().get_lists().getByTitle('StatusList');
-
-    this.oListItem = oList.getItemById(timesheetId);
-
-    oListItem.set_item('Month', month);
-    oListItem.set_item('Year', year);
-    oListItem.set_item('Total', sumCol);
-    oListItem.set_item('Status', "In Progress");
-
-
-    oListItem.update();
-
-    clientContext.load(oListItem);
-
-    clientContext.executeQueryAsync(Function.createDelegate(this, this.onQueryCreateMyTimesheet), Function.createDelegate(this, this.onQueryCreateFailed));
-
-}
-
-function onQueryCreateMyTimesheet() {
-    // return to MyTimesheet
-}
-
-function updateExpenseSheet(user) {
-
-    var assignedToVal = new SP.FieldUserValue();
-    assignedToVal.set_lookupId(user);
-
-    while (colCreated < count) {
-        if (array[colCreated][14] != "Deleted") {
-
-            var clientContext = new SP.ClientContext.get_current();
-
-            //update Timesheet List
-            var oList = clientContext.get_web().get_lists().getByTitle('ExpenseSheet');
-
-            var itemCreateInfo = new SP.ListItemCreationInformation();
-            this.oListItem = oList.addItem(itemCreateInfo);
-
-            for (var i = 0; i < projectArray.length; i++) {
-                if (projectArray[i][1] == array[colCreated][1]) {
-                    //oListItem.set_item('PNum', projectInfo[colCreated][0]);
-                    //oListItem.set_item('Amdt', projectInfo[colCreated][1]);
-                    //oListItem.set_item('ProjectTitle', projectInfo[colCreated][2]);
-                    //oListItem.set_item('Cat', projectInfo[colCreated][3]);
-                    //oListItem.set_item('FinalClient', projectInfo[colCreated][4]);
-                    //oListItem.set_item('ProjectDetails', projectInfo[colCreated][5]);
-                    //oListItem.set_item('Bench', projectInfo[colCreated][6]);
-                }
-            }
-
-            oListItem.set_item('Project', array[colCreated][1]);
-            dateRequest = new Date(array[colCreated][2].replace(/-/g, '\/'));
-            oListItem.set_item('Date1', dateRequest);
-            //oListItem.set_item('Date1', array[colCreated][2]);
-            oListItem.set_item('Month', month);
-            oListItem.set_item('Year', year);
-            oListItem.set_item('Recipient', array[colCreated][3]);
-            oListItem.set_item('Description1', array[colCreated][4]);
-            oListItem.set_item('Province', array[colCreated][5]);
-            oListItem.set_item('ExpensesType', array[colCreated][6]);
-            oListItem.set_item('Amount', array[colCreated][7]);
-            oListItem.set_item('Tip', array[colCreated][8]);
-            oListItem.set_item('TPS', array[colCreated][9]);
-            oListItem.set_item('TVQ', array[colCreated][10]);
-            oListItem.set_item('Total', array[colCreated][11]);
-            oListItem.set_item('ExchangeRate', array[colCreated][12]);
-            oListItem.set_item('TotalAfterRate', array[colCreated][13]);
-            oListItem.set_item('AssignedTo', user);
-
-            oListItem.update();
-
-            clientContext.load(oListItem);
-
-
-            clientContext.executeQueryAsync(Function.createDelegate(this, this.onQueryCreateSucceeded), Function.createDelegate(this, this.onQueryCreateFailed));
-
-            colCreated++;
-
-        } else {
-            colCreated++;
-            onQueryCreateSucceeded();
-        }
-    }
-}
-//same
-function onQueryCreateSucceeded() {
-    if (colCreated == count) {
-        deleteOldListItems();
-    }
-}
-
-function deleteOldListItems() {
-    deleteLineArray.forEach(function (val) {
-
-        this.itemId = val;
-
-        var clientContext = new SP.ClientContext.get_current();
-        var oList = clientContext.get_web().get_lists().getByTitle('ExpenseSheet');
-
-        this.oListItem = oList.getItemById(itemId);
-
-        oListItem.deleteObject();
-
-        clientContext.executeQueryAsync(Function.createDelegate(this, this.onQuerySucceededDeleted), Function.createDelegate(this, this.onQueryFailed));
-    });
-}
-
-function onQuerySucceededDeleted() {
-    var deleteline = deleteLineArray.length;
-    countLinesToDelete++;
-    if (countLinesToDelete == deleteline) {
-        window.location.href = '../Pages/EditExpenseReport.aspx?ID=' + timesheetId + '&Status=InProgress&Month=' + month + '&Year=' + year;
-    }
-}
-
-//get current logged in user
-function takeCurrentUser() {
-    var clientContext = new SP.ClientContext.get_current();
-    var website = clientContext.get_web();
-    clientContext.load(website);
-    currentUser = website.get_currentUser();
-
-    clientContext.load(currentUser);
-    clientContext.executeQueryAsync(onRequestSucceeded, onRequestFailed);
-
-    function onRequestSucceeded() {
-
-    }
-
-    function onRequestFailed(sender, args) {
-        alert('Error: ' + args.get_message());
-    }
-}
+//*************************************************************************************
+//                                   Load User Data
+//*************************************************************************************
 
 //Take the current number of rows in the specific month
 //Change the Where to accept the month, year and current user for the request
-function fillArrayAndTakeCount() {
-    var userId = _spPageContextInfo.userId;
+function retrieveUserData() {
+    //take user Id
+    getUserId(user);
+}
+// Get the user ID.
+function getUserId(loginName) {
+    var context = new SP.ClientContext.get_current();
+    this.user = context.get_web().ensureUser(loginName);
+    context.load(this.user);
+    context.executeQueryAsync(
+         Function.createDelegate(null, ensureUserSuccess),
+         Function.createDelegate(null, onFail)
+    );
+}
+
+function ensureUserSuccess() {
+    var userId = this.user.get_id();
+    fillArrayAndTakeCount(userId);
+}
+
+function onFail(sender, args) {
+    alert('Query failed. Error: ' + args.get_message());
+}
+
+function fillArrayAndTakeCount(userId) {
+    //Take list info for the selected user
     var context = new SP.ClientContext.get_current();
     var oList = context.get_web().get_lists().getByTitle('ExpenseSheet');
     var camlQuery = new SP.CamlQuery();
@@ -300,18 +194,24 @@ function fillArrayAndTakeCount() {
     Function.createDelegate(this, window.onQueryFailed));
 }
 
+function onQueryFailed(sender, args) {
+}
+
 //take new count, fill array
 function onQuerySucceeded(sender, args) {
     var listEnumerator = collListItem.getEnumerator();
     while (listEnumerator.moveNext()) {
+
+
 
         //update array
         var oListItem = listEnumerator.get_current();
         //save the number of lines to be deleted
         deleteLineArray[count] = oListItem.get_id();
         //count number of rows in list
-        
-        var total = 0;
+        //count++;
+        //var temp = count - 1;
+        //var total = 0;
         array[count] = new Array(14);
         array[count][1] = oListItem.get_item('Project');
         array[count][2] = oListItem.get_item('Date1');
@@ -327,82 +227,24 @@ function onQuerySucceeded(sender, args) {
         array[count][12] = oListItem.get_item('ExchangeRate');
         array[count][13] = oListItem.get_item('TotalAfterRate');
 
-        //total += array[count][j];
-        
-        //array[count][3] = total;
+        //for (var j = 5; j < 36; j++) {
+        //    array[temp][j] = oListItem.get_item('_x00' + (j - 4) + '_');
+        //    total += array[temp][j];
+        //}
+        //array[temp][4] = total;
+        //sumCol += total;
+
         sumCol += array[count][11];
         count++;
+
     }
+
     //Call this function to build the empty table.
-    
+    //newLineOfProject(count);
+    //$('#totalHour').html(sumCol);
     SP.SOD.executeFunc('sp.js', 'SP.ClientContext', lookupProject);
-
-    
 }
 
-function newLine(rows) {
-    var newLine = "";
-    for (var i = 0; i < rows; i++) {
-        newLine += '<tr id="row' + i + '">' +
-                    '<td><input type="checkbox" id="col' + i + '-0"></td>' +
-                    '<td><select class="form-control results" id="col' + i + '-1">';
-        
-        for (var j = 0; j < projectArray.length; j++) {
-            newLine += projectArray[j][0];
-        }
-
-        newLine += '</select>' +
-                    '</td>' +
-                    '<td><input type="date"  id="col' + i + '-2" class="form-control"/></td>' +
-                    '<td><input type="text"  id="col' + i + '-3" class="form-control"/></td>' +
-                    '<td><input type="text"  id="col' + i + '-4" class="form-control"/></td>' +
-                    '<td><select class="form-control" id="col' + i + '-5">' +
-                            '<option value="BC" label="British Columbia" selected="selected">BC</option>' +
-                            '<option value="NB" label="New Brunswick">NB</option>' +
-                            '<option value="NS" label="Nova Scotia">NS</option>' +
-                            '<option value="ON" label="Ontario">ON</option>' +
-                            '<option value="QC" label="Quebec">QC</option>' +
-                            '<option value="NL" label="Newfoundland and Labrador">NL</option>' +
-                            '<option value="OP" label="Other Provinces">OP</option>' +
-                            '<option value="OC" label="Outside Canada">OC</option>' +
-                        '</select>' +
-                    '</td>' +
-                     '<td><select class="form-control" id="col' + i + '-6">' +
-                            '<option>Accommodation expenses</option>' +
-                            '<option>Airplane ticket</option>' +
-                            '<option>Computer equipments</option>' +
-                            '<option selected="selected">Direct expense</option>' +
-                            '<option>Displacement</option>' +
-                            '<option>For each day</option>' +
-                            '<option>Kilometric allowance</option>' +
-                            '<option>Office expenses</option>' +
-                            '<option>Representation expenses</option>' +
-                            '<option>Telephone consultant</option>' +
-                            '<option>Telephone leader</option>' +
-                        '</select>' +
-                    '</td>' +
-                    '<td><input type="number"  id="col' + i + '-7" class="form-control"/></td>' +
-                    '<td><input type="number"  id="col' + i + '-8" class="form-control"/></td>' +
-                    '<td><input type="number"  id="col' + i + '-9" class="form-control"/></td>' +
-                    '<td><input type="number"  id="col' + i + '-10" class="form-control"/></td>' +
-                    '<td><input type="text" value="" id="col' + i + '-11" class="form-control" readonly/></td>' +
-                    '<td><input type="number"  id="col' + i + '-12" class="form-control"/></td>' +
-                    '<td><input type="text" value="" id="col' + i + '-13" class="form-control" readonly/></td>' +
-                    '<td><input type="hidden" id="col' + i + '-14"></td>' +
-                  '</tr>';
-    }
-    $("#newLine").html(newLine);
-
-    updateOldProjects();
-
-    //Update the total
-    $(".form-control").focusout(function () {
-        updateLineTotal();
-    });
-}
-/**
-*Get Infos in Project List
-*/
 function lookupProject() {
     var ctx = new SP.ClientContext.get_current();
     //var siteUrl = 'https://siicanada.sharepoint.com/agency/direction/';
@@ -480,6 +322,67 @@ function onQueryLookupSucceeded(sender, args) {
     $('#totalHour').html(sumCol);
 
 }
+
+function newLine(rows) {
+    var newLine = "";
+    for (var i = 0; i < rows; i++) {
+        newLine += '<tr id="row' + i + '">' +
+                    '<td><input type="checkbox" id="col' + i + '-0"></td>' +
+                    '<td><select class="form-control results" id="col' + i + '-1">';
+
+        for (var j = 0; j < projectArray.length; j++) {
+            newLine += projectArray[j][0];
+        }
+
+        newLine += '</select>' +
+                    '</td>' +
+                    '<td><input type="date"  id="col' + i + '-2" class="form-control"/></td>' +
+                    '<td><input type="text"  id="col' + i + '-3" class="form-control"/></td>' +
+                    '<td><input type="text"  id="col' + i + '-4" class="form-control"/></td>' +
+                    '<td><select class="form-control" id="col' + i + '-5">' +
+                            '<option value="BC" label="British Columbia" selected="selected">BC</option>' +
+                            '<option value="NB" label="New Brunswick">NB</option>' +
+                            '<option value="NS" label="Nova Scotia">NS</option>' +
+                            '<option value="ON" label="Ontario">ON</option>' +
+                            '<option value="QC" label="Quebec">QC</option>' +
+                            '<option value="NL" label="Newfoundland and Labrador">NL</option>' +
+                            '<option value="OP" label="Other Provinces">OP</option>' +
+                            '<option value="OC" label="Outside Canada">OC</option>' +
+                        '</select>' +
+                    '</td>' +
+                     '<td><select class="form-control" id="col' + i + '-6">' +
+                            '<option>Accommodation expenses</option>' +
+                            '<option>Airplane ticket</option>' +
+                            '<option>Computer equipments</option>' +
+                            '<option selected="selected">Direct expense</option>' +
+                            '<option>Displacement</option>' +
+                            '<option>For each day</option>' +
+                            '<option>Kilometric allowance</option>' +
+                            '<option>Office expenses</option>' +
+                            '<option>Representation expenses</option>' +
+                            '<option>Telephone consultant</option>' +
+                            '<option>Telephone leader</option>' +
+                        '</select>' +
+                    '</td>' +
+                    '<td><input type="number"  id="col' + i + '-7" class="form-control"/></td>' +
+                    '<td><input type="number"  id="col' + i + '-8" class="form-control"/></td>' +
+                    '<td><input type="number"  id="col' + i + '-9" class="form-control"/></td>' +
+                    '<td><input type="number"  id="col' + i + '-10" class="form-control"/></td>' +
+                    '<td><input type="text" value="" id="col' + i + '-11" class="form-control" readonly/></td>' +
+                    '<td><input type="number"  id="col' + i + '-12" class="form-control"/></td>' +
+                    '<td><input type="text" value="" id="col' + i + '-13" class="form-control" readonly/></td>' +
+                    '<td><input type="hidden" id="col' + i + '-14"></td>' +
+                  '</tr>';
+    }
+    $("#newLine").html(newLine);
+
+    updateOldProjects();
+
+    //Update the total
+    $(".form-control").focusout(function () {
+        updateLineTotal();
+    });
+}
 /**
 *Update the old line with information from array
 */
@@ -509,7 +412,6 @@ function updateOldProjects() {
         }
     }
 }
-
 /**
 *Update the total automatically
 */
@@ -534,6 +436,19 @@ function updateLineTotal() {
         }
     }
     $('#totalHour').html(sumCol);
+}
+/**
+*Fill in the array with the line information
+*/
+function fillArray() {
+    if (count != 0) {
+        array[count - 1] = new Array(14);
+        for (var i = 0; i < count; i++) {
+            for (var j = 0; j < 15; j++) {
+                array[i][j] = $('#col' + i + '-' + j).val();
+            }
+        }
+    }
 }
 /**
 *Add a new blank line
@@ -600,19 +515,6 @@ function newLineOfProject() {
 
     //lookupProject();
 
-}
-/**
-*Fill in the array with the line information
-*/
-function fillArray() {
-    if (count != 0) {
-        array[count - 1] = new Array(14);
-        for (var i = 0; i < count; i++) {
-            for (var j = 0; j < 15; j++) {
-                array[i][j] = $('#col' + i + '-' + j).val();
-            }
-        }
-    }
 }
 /**
 *Update the old line with information from array

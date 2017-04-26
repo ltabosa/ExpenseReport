@@ -5,5 +5,7 @@
     <ProjectItemFile Source="Default.aspx" Target="Pages\" Type="ElementFile" />
     <ProjectItemFile Source="NewExpenseReport.aspx" Target="Pages\" Type="ElementFile" />
     <ProjectItemFile Source="EditExpenseReport.aspx" Target="Pages\" Type="ElementFile" />
+    <ProjectItemFile Source="ApproverView.aspx" Target="Pages\" Type="ElementFile" />
+    <ProjectItemFile Source="ApproverEdit.aspx" Target="Pages\" Type="ElementFile" />
   </Files>
 </ProjectItem>

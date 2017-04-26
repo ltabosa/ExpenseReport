@@ -4,32 +4,32 @@
     <ContentTypes>
 
 
-      <ContentType ID="0x01003aa40364e3bc45d29c4e03ddefd4e5f9" Name="ListFieldsContentType">
+      
+      
+      
+    <ContentType ID="0x01003aa40364e3bc45d29c4e03ddefd4e5f9" Name="ListFieldsContentType">
         <FieldRefs>
-          <FieldRef ID="{fa564e0f-0c70-4ab9-b863-0177e6ddd247}" Name="Title" />
-          <FieldRef ID="{d386a9e6-d1c9-4a47-8c14-cf17d17dbf3d}" Name="Date1" />
-          <FieldRef ID="{18bc2414-dced-4db2-bdfc-ce54ffea2797}" Name="Recipient" />
-          <FieldRef ID="{75b1812e-4eb4-4bc9-9bdc-59edc721722c}" Name="Description1" />
-          <FieldRef ID="{c7346cc6-0131-424d-ad98-aa893792edba}" Name="Province" />
-          <FieldRef ID="{d8b5cc7c-f132-4f90-be78-f4d6fa46dea1}" Name="ExpensesType" />
-          <FieldRef ID="{8f038df9-9b50-45cc-a45f-548601a1f817}" Name="Amount" />
-          <FieldRef ID="{400fbe73-3f98-48d5-b520-b9fc5e26e7fc}" Name="Tip" />
-          <FieldRef ID="{2567c26c-acd3-4396-b237-e48523bc40f3}" Name="TPS" />
-          <FieldRef ID="{6ddd4428-ffdd-4b54-bd9c-3db099b0f14f}" Name="TVQ" />
-          <FieldRef ID="{0fe81fa4-e28c-4ce9-a685-41bda2b644d9}" Name="Total" />
-          <FieldRef ID="{992091a8-c7ec-459e-8b7d-8f6277782af7}" Name="ExchangeRate" />
-          <FieldRef ID="{e8777857-100b-4feb-8e7d-c961aa42fc1d}" Name="TotalAfterRate" />
-          <FieldRef ID="{8fd4069c-d55d-4db4-a838-58bc665eb860}" Name="Month" />
-          <FieldRef ID="{cbb3ce06-ba93-4a7e-b7d5-f040dc357f83}" Name="Year" />
-          <FieldRef ID="{53101f38-dd2e-458c-b245-0c236cc13d1a}" Name="AssignedTo" />
-          <FieldRef ID="{f87ea441-4df7-4d9d-884e-861a22ad97d7}" Name="Project" />
-        </FieldRefs>
-      </ContentType>
-      <ContentTypeRef ID="0x01">
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+        <FieldRef ID="{fa564e0f-0c70-4ab9-b863-0177e6ddd247}" Name="Title" /><FieldRef ID="{d386a9e6-d1c9-4a47-8c14-cf17d17dbf3d}" Name="Date1" /><FieldRef ID="{18bc2414-dced-4db2-bdfc-ce54ffea2797}" Name="Recipient" /><FieldRef ID="{75b1812e-4eb4-4bc9-9bdc-59edc721722c}" Name="Description1" /><FieldRef ID="{c7346cc6-0131-424d-ad98-aa893792edba}" Name="Province" /><FieldRef ID="{d8b5cc7c-f132-4f90-be78-f4d6fa46dea1}" Name="ExpensesType" /><FieldRef ID="{8f038df9-9b50-45cc-a45f-548601a1f817}" Name="Amount" /><FieldRef ID="{400fbe73-3f98-48d5-b520-b9fc5e26e7fc}" Name="Tip" /><FieldRef ID="{2567c26c-acd3-4396-b237-e48523bc40f3}" Name="TPS" /><FieldRef ID="{6ddd4428-ffdd-4b54-bd9c-3db099b0f14f}" Name="TVQ" /><FieldRef ID="{0fe81fa4-e28c-4ce9-a685-41bda2b644d9}" Name="Total" /><FieldRef ID="{992091a8-c7ec-459e-8b7d-8f6277782af7}" Name="ExchangeRate" /><FieldRef ID="{e8777857-100b-4feb-8e7d-c961aa42fc1d}" Name="TotalAfterRate" /><FieldRef ID="{8fd4069c-d55d-4db4-a838-58bc665eb860}" Name="Month" /><FieldRef ID="{cbb3ce06-ba93-4a7e-b7d5-f040dc357f83}" Name="Year" /><FieldRef ID="{53101f38-dd2e-458c-b245-0c236cc13d1a}" Name="AssignedTo" /><FieldRef ID="{f87ea441-4df7-4d9d-884e-861a22ad97d7}" Name="Project" /></FieldRefs>
+      </ContentType><ContentTypeRef ID="0x01">
         <Folder TargetName="Item" />
-      </ContentTypeRef>
-      <ContentTypeRef ID="0x0120" />
-    </ContentTypes>
+      </ContentTypeRef><ContentTypeRef ID="0x0120" /></ContentTypes>
     <Fields>
 
 
@@ -39,84 +39,84 @@
 
 
 
-      <Field ID="{fa564e0f-0c70-4ab9-b863-0177e6ddd247}" Type="Text" Name="Title" DisplayName="$Resources:core,Title;" Required="FALSE" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Title" MaxLength="255" />
-      <Field Name="Date1" ID="{d386a9e6-d1c9-4a47-8c14-cf17d17dbf3d}" DisplayName="Date" Type="DateTime" Format="DateOnly" />
-      <Field Name="Recipient" ID="{18bc2414-dced-4db2-bdfc-ce54ffea2797}" DisplayName="Recipient" Type="Text" />
-      <Field Name="Description1" ID="{75b1812e-4eb4-4bc9-9bdc-59edc721722c}" DisplayName="Description" Type="Text" />
-      <Field Name="Province" ID="{c7346cc6-0131-424d-ad98-aa893792edba}" DisplayName="Province" Type="Text" />
-      <Field Name="ExpensesType" ID="{d8b5cc7c-f132-4f90-be78-f4d6fa46dea1}" DisplayName="ExpensesType" Type="Text" />
-      <Field Name="Amount" ID="{8f038df9-9b50-45cc-a45f-548601a1f817}" DisplayName="Amount" Type="Currency" Decimals="2" />
-      <Field Name="Tip" ID="{400fbe73-3f98-48d5-b520-b9fc5e26e7fc}" DisplayName="Tip" Type="Currency" />
-      <Field Name="TPS" ID="{2567c26c-acd3-4396-b237-e48523bc40f3}" DisplayName="TPS" Type="Currency" />
-      <Field Name="TVQ" ID="{6ddd4428-ffdd-4b54-bd9c-3db099b0f14f}" DisplayName="TVQ" Type="Currency" />
-      <Field Name="Total" ID="{0fe81fa4-e28c-4ce9-a685-41bda2b644d9}" DisplayName="Total" Type="Currency" />
-      <Field Name="ExchangeRate" ID="{992091a8-c7ec-459e-8b7d-8f6277782af7}" DisplayName="ExchangeRate" Type="Number" />
-      <Field Name="TotalAfterRate" ID="{e8777857-100b-4feb-8e7d-c961aa42fc1d}" DisplayName="TotalAfterRate" Type="Currency" />
-      <Field Name="Month" ID="{8fd4069c-d55d-4db4-a838-58bc665eb860}" DisplayName="Month" Type="Text" />
-      <Field Name="Year" ID="{cbb3ce06-ba93-4a7e-b7d5-f040dc357f83}" DisplayName="Year" Type="Text" />
-      <Field ID="{53101f38-dd2e-458c-b245-0c236cc13d1a}" Name="AssignedTo" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="AssignedTo" Group="$Resources:core,Issue_Task_Columns;" Type="User" List="UserInfo" DisplayName="$Resources:core,Assigned_To;" DelayActivateTemplateBinding="GROUP,SPSPERS,SITEPAGEPUBLISHING" />
-      <Field Name="Project" ID="{f87ea441-4df7-4d9d-884e-861a22ad97d7}" DisplayName="Project" Type="Text" />
-    </Fields>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    <Field ID="{fa564e0f-0c70-4ab9-b863-0177e6ddd247}" Type="Text" Name="Title" DisplayName="$Resources:core,Title;" Required="FALSE" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Title" MaxLength="255" /><Field Name="Date1" ID="{d386a9e6-d1c9-4a47-8c14-cf17d17dbf3d}" DisplayName="Date" Type="Text" Format="DateOnly" /><Field Name="Recipient" ID="{18bc2414-dced-4db2-bdfc-ce54ffea2797}" DisplayName="Recipient" Type="Text" /><Field Name="Description1" ID="{75b1812e-4eb4-4bc9-9bdc-59edc721722c}" DisplayName="Description" Type="Text" /><Field Name="Province" ID="{c7346cc6-0131-424d-ad98-aa893792edba}" DisplayName="Province" Type="Text" /><Field Name="ExpensesType" ID="{d8b5cc7c-f132-4f90-be78-f4d6fa46dea1}" DisplayName="ExpensesType" Type="Text" /><Field Name="Amount" ID="{8f038df9-9b50-45cc-a45f-548601a1f817}" DisplayName="Amount" Type="Currency" Decimals="2" /><Field Name="Tip" ID="{400fbe73-3f98-48d5-b520-b9fc5e26e7fc}" DisplayName="Tip" Type="Currency" /><Field Name="TPS" ID="{2567c26c-acd3-4396-b237-e48523bc40f3}" DisplayName="TPS" Type="Currency" /><Field Name="TVQ" ID="{6ddd4428-ffdd-4b54-bd9c-3db099b0f14f}" DisplayName="TVQ" Type="Currency" /><Field Name="Total" ID="{0fe81fa4-e28c-4ce9-a685-41bda2b644d9}" DisplayName="Total" Type="Currency" /><Field Name="ExchangeRate" ID="{992091a8-c7ec-459e-8b7d-8f6277782af7}" DisplayName="ExchangeRate" Type="Number" /><Field Name="TotalAfterRate" ID="{e8777857-100b-4feb-8e7d-c961aa42fc1d}" DisplayName="TotalAfterRate" Type="Currency" /><Field Name="Month" ID="{8fd4069c-d55d-4db4-a838-58bc665eb860}" DisplayName="Month" Type="Text" /><Field Name="Year" ID="{cbb3ce06-ba93-4a7e-b7d5-f040dc357f83}" DisplayName="Year" Type="Text" /><Field ID="{53101f38-dd2e-458c-b245-0c236cc13d1a}" Name="AssignedTo" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="AssignedTo" Group="$Resources:core,Issue_Task_Columns;" Type="User" List="UserInfo" DisplayName="$Resources:core,Assigned_To;" DelayActivateTemplateBinding="GROUP,SPSPERS,SITEPAGEPUBLISHING" /><Field Name="Project" ID="{f87ea441-4df7-4d9d-884e-861a22ad97d7}" DisplayName="Project" Type="Text" /></Fields>
     <Views>
 
 
-      <View BaseViewID="0" Type="HTML" MobileView="TRUE" TabularView="FALSE">
+      
+      
+    <View BaseViewID="0" Type="HTML" MobileView="TRUE" TabularView="FALSE">
         <Toolbar Type="Standard" />
         <XslLink Default="TRUE">main.xsl</XslLink>
         <RowLimit Paged="TRUE">30</RowLimit>
         <ViewFields>
 
-          <FieldRef Name="LinkTitleNoMenu"></FieldRef>
-        </ViewFields>
+          
+        <FieldRef Name="LinkTitleNoMenu"></FieldRef></ViewFields>
         <Query>
           <OrderBy>
 
-            <FieldRef Name="Modified" Ascending="FALSE"></FieldRef>
-          </OrderBy>
+            
+          <FieldRef Name="Modified" Ascending="FALSE"></FieldRef></OrderBy>
         </Query>
         <ParameterBindings>
           <ParameterBinding Name="AddNewAnnouncement" Location="Resource(wss,addnewitem)" />
           <ParameterBinding Name="NoAnnouncements" Location="Resource(wss,noXinviewofY_LIST)" />
           <ParameterBinding Name="NoAnnouncementsHowTo" Location="Resource(wss,noXinviewofY_ONET_HOME)" />
         </ParameterBindings>
-      </View>
-      <View BaseViewID="1" Type="HTML" WebPartZoneID="Main" DisplayName="$Resources:core,objectiv_schema_mwsidcamlidC24;" DefaultView="TRUE" MobileView="TRUE" MobileDefaultView="TRUE" SetupPath="pages\viewpage.aspx" ImageUrl="/_layouts/15/images/generic.png?rev=23" Url="AllItems.aspx">
+      </View><View BaseViewID="1" Type="HTML" WebPartZoneID="Main" DisplayName="$Resources:core,objectiv_schema_mwsidcamlidC24;" DefaultView="TRUE" MobileView="TRUE" MobileDefaultView="TRUE" SetupPath="pages\viewpage.aspx" ImageUrl="/_layouts/15/images/generic.png?rev=23" Url="AllItems.aspx">
         <Toolbar Type="Standard" />
         <XslLink Default="TRUE">main.xsl</XslLink>
         <JSLink>clienttemplates.js</JSLink>
         <RowLimit Paged="TRUE">30</RowLimit>
         <ViewFields>
 
-          <FieldRef Name="LinkTitle"></FieldRef>
-          <FieldRef Name="Date1" />
-          <FieldRef Name="Recipient" />
-          <FieldRef Name="Description1" />
-          <FieldRef Name="Province" />
-          <FieldRef Name="ExpensesType" />
-          <FieldRef Name="Amount" />
-          <FieldRef Name="Tip" />
-          <FieldRef Name="TPS" />
-          <FieldRef Name="TVQ" />
-          <FieldRef Name="Total" />
-          <FieldRef Name="ExchangeRate" />
-          <FieldRef Name="TotalAfterRate" />
-          <FieldRef Name="Month" />
-          <FieldRef Name="Year" />
-          <FieldRef Name="AssignedTo" />
-          <FieldRef Name="Project" />
-        </ViewFields>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+        <FieldRef Name="LinkTitle"></FieldRef><FieldRef Name="Date1" /><FieldRef Name="Recipient" /><FieldRef Name="Description1" /><FieldRef Name="Province" /><FieldRef Name="ExpensesType" /><FieldRef Name="Amount" /><FieldRef Name="Tip" /><FieldRef Name="TPS" /><FieldRef Name="TVQ" /><FieldRef Name="Total" /><FieldRef Name="ExchangeRate" /><FieldRef Name="TotalAfterRate" /><FieldRef Name="Month" /><FieldRef Name="Year" /><FieldRef Name="AssignedTo" /><FieldRef Name="Project" /></ViewFields>
         <Query>
           <OrderBy>
 
-            <FieldRef Name="ID"></FieldRef>
-          </OrderBy>
+            
+          <FieldRef Name="ID"></FieldRef></OrderBy>
         </Query>
         <ParameterBindings>
           <ParameterBinding Name="NoAnnouncements" Location="Resource(wss,noXinviewofY_LIST)" />
           <ParameterBinding Name="NoAnnouncementsHowTo" Location="Resource(wss,noXinviewofY_DEFAULT)" />
         </ParameterBindings>
-      </View>
-    </Views>
+      </View></Views>
     <Forms>
       <Form Type="DisplayForm" Url="DispForm.aspx" SetupPath="pages\form.aspx" WebPartZoneID="Main" />
       <Form Type="EditForm" Url="EditForm.aspx" SetupPath="pages\form.aspx" WebPartZoneID="Main" />

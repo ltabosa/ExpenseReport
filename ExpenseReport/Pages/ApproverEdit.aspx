@@ -16,6 +16,8 @@
     <SharePoint:ScriptLink Name="sp.runtime.js" runat="server" LoadAfterUI="true" Localizable="false" />
     <SharePoint:ScriptLink Name="sp.core.js" runat="server" LoadAfterUI="true" Localizable="false" />
 
+
+
     <meta name="WebPartPageExpansion" content="full" />
 
     <!-- Ajoutez vos styles CSS au fichier suivant -->
@@ -24,16 +26,17 @@
     <link rel="Stylesheet" type="text/css" href="../Content/jquery-ui.css" />
 
     <!-- Ajoutez votre code JavaScript au fichier suivant -->
-    <script type="text/javascript" src="../Scripts/EditExpenseReport.js"></script>
+    <script type="text/javascript" src="../Scripts/ApproverEdit.js"></script>
     <script type="text/javascript" src="../Scripts/AddAttachmentFile.js"></script>
     <script type="text/javascript" src="../Scripts/bootstrap.min.js"></script>
     <script type="text/javascript" src="../Scripts/jquery-ui-1.12.1.min.js"></script>
     <script type="text/javascript" src="../Scripts/jquery.SPServices-2014.02.min.js"></script>
+
 </asp:Content>
 
 <%-- Le balisage de l'élément Content suivant sera placé dans la partie TitleArea de la page --%>
 <asp:Content ContentPlaceHolderID="PlaceHolderPageTitleInTitleArea" runat="server">
-    Edit Expense Report
+    Approver Edit
 </asp:Content>
 
 <asp:Content ContentPlaceHolderID="PlaceHolderMain" runat="server">
@@ -48,9 +51,9 @@
 
         <div class="form-group row">
             <div class="col-xs-6">
-                <a href="../Pages/Default.aspx" id="backBtn" class="btn btn-default " role="button">BACK</a>
-                <input name="Submit" id="Submit" type="button" value="SAVE" class="btn btn-default btn-lg" />
-
+                <a href="../Pages/ApproverView.aspx" id="backBtn" class="btn btn-default " role="button">BACK</a>
+                <input name="Submit" id="Submit" type="button" value="APPROVE" class="btn btn-default btn-lg" />
+                <input name="Submit" id="Reject" type="button" value="REJECT" class="btn btn-default btn-lg" />
             </div>
         </div>
 
@@ -65,6 +68,14 @@
             <div class="col-xs-2">
                 <label for="txtYear">Year</label>
                 <input type="text" readonly name="txtFromYear" id="txtYear" class="date-picker-year form-control changeDate" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-xs-2">
+                <label for="txtUser">User</label>
+                <!--<div id="peoplePickerDivLinMan" title="User_"></div>-->
+                <input type="text" readonly name="txtFromUser" id="txtUser" class="date-picker-year form-control changeDate" />
+
             </div>
         </div>
         <div class="form-group row">
@@ -103,7 +114,7 @@
                 <tbody id="msg"></tbody>
             </table>
 
-            <p id="newDeleteButtons" class=".col-md-8">New: <a href="#" id="otherProject"><span class="glyphicon glyphicon-plus-sign"></span></a>/ Delete Selected Lines: <a href="#" id="deleteLine"><span class="glyphicon glyphicon glyphicon-minus-sign"></span></a></p>
+            <p class=".col-md-8">New: <a href="#" id="otherProject"><span class="glyphicon glyphicon-plus-sign"></span></a>/ Delete Selected Lines: <a href="#" id="deleteLine"><span class="glyphicon glyphicon glyphicon-minus-sign"></span></a></p>
 
         </div>
 

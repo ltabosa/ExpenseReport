@@ -17,5 +17,7 @@
     <File Path="Scripts\AddAttachmentFile.js" Url="Scripts/AddAttachmentFile.js" ReplaceContent="TRUE" />
     <File Path="Scripts\jquery.SPServices-2014.02.min.js" Url="Scripts/jquery.SPServices-2014.02.min.js" ReplaceContent="TRUE" />
     <File Path="Scripts\EditExpenseReport.js" Url="Scripts/EditExpenseReport.js" ReplaceContent="TRUE" />
+    <File Path="Scripts\ApproverView.js" Url="Scripts/ApproverView.js" ReplaceContent="TRUE" />
+    <File Path="Scripts\ApproverEdit.js" Url="Scripts/ApproverEdit.js" ReplaceContent="TRUE" />
   </Module>
 </Elements>

@@ -4,5 +4,7 @@
     <File Path="Pages\Default.aspx" Url="Pages/Default.aspx" ReplaceContent="TRUE" />
     <File Path="Pages\NewExpenseReport.aspx" Url="Pages/NewExpenseReport.aspx" ReplaceContent="TRUE" />
     <File Path="Pages\EditExpenseReport.aspx" Url="Pages/EditExpenseReport.aspx" ReplaceContent="TRUE" />
+    <File Path="Pages\ApproverView.aspx" Url="Pages/ApproverView.aspx" ReplaceContent="TRUE" />
+    <File Path="Pages\ApproverEdit.aspx" Url="Pages/ApproverEdit.aspx" ReplaceContent="TRUE" />
   </Module>
 </Elements>

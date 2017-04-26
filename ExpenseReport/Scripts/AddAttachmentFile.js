@@ -68,8 +68,8 @@ function addFileToListMyTimesheet(itemId) {
           function () {
               console.log('Attachment file has been uploaded');
               if (itCameFromNewTimesheet) {
-                  window.location.href = '../Pages/Default.aspx';
-                  //window.location.href = '../Pages/EditTimesheet.aspx?ID=' + itemId + '&Status=InProgress&Month=' + monthSubmit + '&Year=' + yearSubmit + '';
+                  //window.location.href = '../Pages/Default.aspx';
+                  window.location.href = '../Pages/EditExpenseReport.aspx?ID=' + itemId + '&Status=InProgress&Month=' + monthSubmit + '&Year=' + yearSubmit + '';
               }
               //location.reload();
           },
@@ -78,8 +78,8 @@ function addFileToListMyTimesheet(itemId) {
           });
     } else {
         if (itCameFromNewTimesheet) {
-            window.location.href = '../Pages/Default.aspx';
-            //window.location.href = '../Pages/EditTimesheet.aspx?ID=' + itemId + '&Status=InProgress&Month=' + monthSubmit + '&Year=' + yearSubmit + '';
+            //window.location.href = '../Pages/Default.aspx';
+            window.location.href = '../Pages/EditExpenseReport.aspx?ID=' + itemId + '&Status=InProgress&Month=' + monthSubmit + '&Year=' + yearSubmit + '';
         }
     }
     function processUpload(fileInput, listTitle, itemId, success, error) {
@@ -191,7 +191,7 @@ function getWebProperties() {
                 relativeUrl = attachmentFiles.itemAt(i).get_serverRelativeUrl();
                 var fileName = String(relativeUrl);
                 fileName = fileName.split("/");
-                fileName = fileName[7];
+                fileName = fileName[6];
                 html += "<p><a href='" + relativeUrl + "'>" + fileName + "</a>";
                 html += "<a onclick='deleteAttach(\"" + fileName + "\")' href='/'> Delete</a></p>";
             }
@@ -262,5 +262,10 @@ function getLastItemId(monthSubmit, yearSubmit, userId) {
         //alert("failed");
     });
 }
+
+
+//************************************************************************************************************************************
+//**************************************************COMMUM FUNCTIONS******************************************************************
+//************************************************************************************************************************************
 
 

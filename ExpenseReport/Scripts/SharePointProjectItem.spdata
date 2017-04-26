@@ -18,5 +18,7 @@
     <ProjectItemFile Source="AddAttachmentFile.js" Target="Scripts\" Type="ElementFile" />
     <ProjectItemFile Source="jquery.SPServices-2014.02.min.js" Target="Scripts\" Type="ElementFile" />
     <ProjectItemFile Source="EditExpenseReport.js" Target="Scripts\" Type="ElementFile" />
+    <ProjectItemFile Source="ApproverView.js" Target="Scripts\" Type="ElementFile" />
+    <ProjectItemFile Source="ApproverEdit.js" Target="Scripts\" Type="ElementFile" />
   </Files>
 </ProjectItem>

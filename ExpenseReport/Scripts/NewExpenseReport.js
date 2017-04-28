@@ -338,15 +338,14 @@ function updateExpenseSheet(user) {
             for (var i = 0; i < projectArray.length; i++) {
                 if (projectArray[i][1] == array[colCreated][1]) {
                     //already good to go
-                    //oListItem.set_item('ProjectTitle', projectArray[i][2]);
-
-
-                    //oListItem.set_item('PNum', projectInfo[colCreated][0]);
-                    //oListItem.set_item('Amdt', projectInfo[colCreated][1]);
-                    //oListItem.set_item('Cat', projectInfo[colCreated][3]);
-                    //oListItem.set_item('FinalClient', projectInfo[colCreated][4]);
-                    //oListItem.set_item('ProjectDetails', projectInfo[colCreated][5]);
-                    //oListItem.set_item('Bench', projectInfo[colCreated][6]);
+                    oListItem.set_item('ProjectTitle', projectArray[i][2]);
+                    oListItem.set_item('Cat', projectArray[i][3]);
+                    oListItem.set_item('FinalClient', projectArray[i][4]);
+                    oListItem.set_item('ProjectDetails', projectArray[i][5]);
+                    oListItem.set_item('PNum', projectArray[i][6]);
+                    oListItem.set_item('Amdt', projectArray[i][7]);
+                    oListItem.set_item('Department', projectArray[i][9]);
+                    oListItem.set_item('InvoicedClient', projectArray[i][10]);
                 }
             }
             
@@ -368,7 +367,8 @@ function updateExpenseSheet(user) {
             oListItem.set_item('Total', array[colCreated][11]);
             oListItem.set_item('ExchangeRate', array[colCreated][12]);
             oListItem.set_item('TotalAfterRate', array[colCreated][13]);
-            oListItem.set_item('AssignedTo', assignedToVal);
+            //oListItem.set_item('AssignedTo', assignedToVal);
+            oListItem.set_item('AssignedTo', user);
 
             oListItem.update();
 
@@ -393,221 +393,229 @@ function onQueryCreateSucceeded() {
     }
 
 }
-/**
-*Get Infos in Project List
-*/
-function lookupProject() {
-    var ctx = new SP.ClientContext.get_current();
-    //var siteUrl = 'https://siicanada.sharepoint.com/agency/direction/';
-    var siteUrl = 'https://leonardotabosa.sharepoint.com/Direction/';
-    var context = new SP.AppContextSite(ctx, siteUrl);
-    ctx.load(context.get_web());
-    var oList = context.get_web().get_lists().getByTitle('Project-List');
-    var camlQuery = new SP.CamlQuery();
-    camlQuery.set_viewXml('<View>' +
-                            '<Query>' +
-                                '<Where>' +
-                                            '<Eq>' +
-                                                '<FieldRef Name=\'Status\'/>' +
-                                                '<Value Type=\'Calculated\'>1-LAUNCHED</Value>' +
-                                            '</Eq>' +
-                                '</Where>' +
-                                '<OrderBy>' +
-                                    '<FieldRef Name=\'Final_x0020_Client\' Ascending=\'TRUE\' />' +
-                                '</OrderBy>' +
-                            '</Query>' +
-                            '<ViewFields>' +
-                                '<FieldRef Name=\'Id\' />' +
-                                '<FieldRef Name=\'Title\' />' +
-                                '<FieldRef Name=\'Cat\' />' +
-                                '<FieldRef Name=\'Final_x0020_Client\' />' +
-                                '<FieldRef Name=\'Details\' />' +
-                                '<FieldRef Name=\'PNum\' />' +
-                                '<FieldRef Name=\'Amdt0\' />' +
-                                '<FieldRef Name=\'Bench\' />' +
-                            '</ViewFields>' +
-                          '</View>');
-    window.collListItem = oList.getItems(camlQuery);
-    ctx.load(collListItem, 'Include(Id, Title, Cat, Final_x0020_Client, Details, PNum, Amdt0, Bench)');
-    ctx.executeQueryAsync(Function.createDelegate(this, window.onQueryLookupSucceeded),
-    Function.createDelegate(this, window.onQueryFailed));
+///**
+//*Get Infos in Project List
+//*/
+//function lookupProject() {
+//    var ctx = new SP.ClientContext.get_current();
+//    //var siteUrl = 'https://siicanada.sharepoint.com/agency/direction/';
+//    var siteUrl = 'https://leonardotabosa.sharepoint.com/Direction/';
+//    var context = new SP.AppContextSite(ctx, siteUrl);
+//    ctx.load(context.get_web());
+//    var oList = context.get_web().get_lists().getByTitle('Project-List');
+//    var camlQuery = new SP.CamlQuery();
+//    camlQuery.set_viewXml('<View>' +
+//                            '<Query>' +
+//                                '<Where>' +
+//                                            '<Eq>' +
+//                                                '<FieldRef Name=\'Status\'/>' +
+//                                                '<Value Type=\'Calculated\'>1-LAUNCHED</Value>' +
+//                                            '</Eq>' +
+//                                '</Where>' +
+//                                '<OrderBy>' +
+//                                    '<FieldRef Name=\'Final_x0020_Client\' Ascending=\'TRUE\' />' +
+//                                '</OrderBy>' +
+//                            '</Query>' +
+//                            '<ViewFields>' +
+//                                '<FieldRef Name=\'Id\' />' +
+//                                '<FieldRef Name=\'Title\' />' +
+//                                '<FieldRef Name=\'Cat\' />' +
+//                                '<FieldRef Name=\'Final_x0020_Client\' />' +
+//                                '<FieldRef Name=\'Details\' />' +
+//                                '<FieldRef Name=\'PNum\' />' +
+//                                '<FieldRef Name=\'Amdt0\' />' +
+//                                '<FieldRef Name=\'Bench\' />' +
+//                            '</ViewFields>' +
+//                          '</View>');
+//    window.collListItem = oList.getItems(camlQuery);
+//    ctx.load(collListItem, 'Include(Id, Title, Cat, Final_x0020_Client, Details, PNum, Amdt0, Bench)');
+//    ctx.executeQueryAsync(Function.createDelegate(this, window.onQueryLookupSucceeded),
+//    Function.createDelegate(this, window.onQueryFailed));
 
-}
-/**
-*Get error message if something goes bad
- * @param {type} sender - The sender.
- * @param {type} args - The arguments.
-*/
-function onQueryFailed(sender, args) {
-    SP.UI.Notify.addNotification('Request failed. ' + args.get_message() + '\n' +
-    args.get_stackTrace(), true);
-}
-/**
- * On the query succeeded. Lists all the projects
- * @param {type} sender - The sender.
- * @param {type} args - The arguments.
- */
-function onQueryLookupSucceeded(sender, args) {
-    var listEnumerator = collListItem.getEnumerator();
-    var countProjects = 0;
-    while (listEnumerator.moveNext()) {
-        var oListItem = listEnumerator.get_current();
-        projectArray[countProjects] = new Array();
-        projectArray[countProjects][0] = "<option value='" + oListItem.get_id() + "' label='" + oListItem.get_item('Final_x0020_Client').Label + " " + oListItem.get_item('Title') + " " + oListItem.get_item('PNum') + "-" + oListItem.get_item('Amdt0') + "'>" + oListItem.get_id() + "</option>";
-        projectArray[countProjects][1] = oListItem.get_id();
-        projectArray[countProjects][2] = oListItem.get_item('Title');
-        projectArray[countProjects][3] = oListItem.get_item('Cat');
-        projectArray[countProjects][4] = oListItem.get_item('Final_x0020_Client').Label;
-        projectArray[countProjects][5] = oListItem.get_item('Details');
-        projectArray[countProjects][6] = oListItem.get_item('PNum');
-        projectArray[countProjects][7] = oListItem.get_item('Amdt0');
-        projectArray[countProjects][8] = oListItem.get_item('Bench');
-        countProjects++;
-    }
-    //console.log(projectArray);
-    //$(".results").html(listInfo);
-    //updateProjects();
-    //holiday();
+//}
+///**
+//*Get error message if something goes bad
+// * @param {type} sender - The sender.
+// * @param {type} args - The arguments.
+//*/
+//function onQueryFailed(sender, args) {
+//    SP.UI.Notify.addNotification('Request failed. ' + args.get_message() + '\n' +
+//    args.get_stackTrace(), true);
+//}
+///**
+// * On the query succeeded. Lists all the projects
+// * @param {type} sender - The sender.
+// * @param {type} args - The arguments.
+// */
+//function onQueryLookupSucceeded(sender, args) {
+//    var listEnumerator = collListItem.getEnumerator();
+//    var countProjects = 0;
+//    while (listEnumerator.moveNext()) {
+//        var oListItem = listEnumerator.get_current();
+//        projectArray[countProjects] = new Array();
+//        projectArray[countProjects][0] = "<option value='" + oListItem.get_id() + "' label='" + oListItem.get_item('Final_x0020_Client').Label + " " + oListItem.get_item('Title') + " " + oListItem.get_item('PNum') + "-" + oListItem.get_item('Amdt0') + "'>" + oListItem.get_id() + "</option>";
+//        projectArray[countProjects][1] = oListItem.get_id();
+//        projectArray[countProjects][2] = oListItem.get_item('Title');
+//        projectArray[countProjects][3] = oListItem.get_item('Cat');
+//        projectArray[countProjects][4] = oListItem.get_item('Final_x0020_Client').Label;
+//        projectArray[countProjects][5] = oListItem.get_item('Details');
+//        projectArray[countProjects][6] = oListItem.get_item('PNum');
+//        projectArray[countProjects][7] = oListItem.get_item('Amdt0');
+//        projectArray[countProjects][8] = oListItem.get_item('Bench');
+//        countProjects++;
+//    }
+//    newLine(count);
 
-}
+//    $('#totalHour').html(sumCol);
+//    //console.log(projectArray);
+//    //$(".results").html(listInfo);
+//    //updateProjects();
+//    //holiday();
+
+//}
 /**
 *Update the total automatically
 */
-function updateLineTotal() {
-    if (count > 0) {
-        sumCol = 0;
-        for (var i = 0; i < count ; i++) {
-            var sumLine = 0;
+//function updateLineTotal() {
+//    if (count > 0) {
+//        sumCol = 0;
+//        for (var i = 0; i < count ; i++) {
+//            var sumLine = 0;
 
-            for (var j = 7; j < 11; j++) {
-                var temp = Number($('#col' + i + '-' + j).val());
-                if (temp >= 0) {
-                    sumLine += temp;
-                    $('#col' + i + '-11').val(sumLine);
-                } else if (!$('#col' + i + '-' + j).val() == "") {
-                    $('#col' + i + '-' + j).val(0);
-                }
-            }
-            if (array[i][14] != "Deleted") {
-                sumCol += sumLine;
-            }
-        }
-    }
-    $('#totalHour').html(sumCol);
-}
+//            for (var j = 7; j < 11; j++) {
+//                var temp = Number($('#col' + i + '-' + j).val());
+//                if (temp >= 0) {
+//                    sumLine += temp;
+//                    $('#col' + i + '-11').val(sumLine);
+//                } else if (!$('#col' + i + '-' + j).val() == "") {
+//                    $('#col' + i + '-' + j).val(0);
+//                }
+//            }
+//            if (Number($('#col' + i + '-12').val()) >= 0) {
+
+//            } else if (!$('#col' + i + '-12').val() == "") {
+//                $('#col' + i + '-12').val(0);
+//            }
+//            if (array[i][14] != "Deleted") {
+//                sumCol += sumLine;
+//            }
+//        }
+//    }
+//    $('#totalHour').html(sumCol);
+//}
 /**
 *Add a new blank line
 */
-function newLineOfProject() {
-    var newLine = "";
-    count++;
-    for (var i = 0; i < count; i++) {
-        newLine += '<tr id="row' + i + '">' +
-                    '<td><input type="checkbox" id="col' + i + '-0"></td>' +
-                    '<td><select class="form-control results" id="col' + i + '-1">';
+//function newLineOfProject() {
+//    var newLine = "";
+//    count++;
+//    for (var i = 0; i < count; i++) {
+//        newLine += '<tr id="row' + i + '">' +
+//                    '<td><input type="checkbox" id="col' + i + '-0"></td>' +
+//                    '<td><select class="form-control results" id="col' + i + '-1">';
 
-        for (var j = 0; j < projectArray.length; j++) {
-            newLine += projectArray[j][0];
-        }
+//        for (var j = 0; j < projectArray.length; j++) {
+//            newLine += projectArray[j][0];
+//        }
 
-        newLine += '</select>' +
-                    '</td>' +
-                    '<td><input type="date"  id="col' + i + '-2" class="form-control"/></td>' +
-                    '<td><input type="text"  id="col' + i + '-3" class="form-control"/></td>' +
-                    '<td><input type="text"  id="col' + i + '-4" class="form-control"/></td>' +
-                    '<td><select class="form-control" id="col' + i + '-5">' +
-                            '<option value="BC" label="British Columbia" selected="selected">BC</option>' +
-                            '<option value="NB" label="New Brunswick">NB</option>' +
-                            '<option value="NS" label="Nova Scotia">NS</option>' +
-                            '<option value="ON" label="Ontario">ON</option>' +
-                            '<option value="QC" label="Quebec">QC</option>' +
-                            '<option value="NL" label="Newfoundland and Labrador">NL</option>' +
-                            '<option value="OP" label="Other Provinces">OP</option>' +
-                            '<option value="OC" label="Outside Canada">OC</option>' +
-                        '</select>' +
-                    '</td>' +
-                     '<td><select class="form-control" id="col' + i + '-6">' +
-                            '<option>Accommodation expenses</option>' +
-                            '<option>Airplane ticket</option>' +
-                            '<option>Computer equipments</option>' +
-                            '<option selected="selected">Direct expense</option>' +
-                            '<option>Displacement</option>' +
-                            '<option>For each day</option>' +
-                            '<option>Kilometric allowance</option>' +
-                            '<option>Office expenses</option>' +
-                            '<option>Representation expenses</option>' +
-                            '<option>Telephone consultant</option>' +
-                            '<option>Telephone leader</option>' +
-                        '</select>' +
-                    '</td>' +
-                    '<td><input type="number"  id="col' + i + '-7" class="form-control"/></td>' +
-                    '<td><input type="number"  id="col' + i + '-8" class="form-control"/></td>' +
-                    '<td><input type="number"  id="col' + i + '-9" class="form-control"/></td>' +
-                    '<td><input type="number"  id="col' + i + '-10" class="form-control"/></td>' +
-                    '<td><input type="text" value="" id="col' + i + '-11" class="form-control" readonly/></td>' +
-                    '<td><input type="number"  id="col' + i + '-12" class="form-control"/></td>' +
-                    '<td><input type="text" value="" id="col' + i + '-13" class="form-control" readonly/></td>' +
-                    '<td><input type="hidden" id="col' + i + '-14"></td>' +
-                  '</tr>';
-    }
-    fillArray();
-    $("#newLine").html(newLine);
-    updateProjects();
-    //Update the total
-    $(".form-control").focusout(function () {
-        updateLineTotal();
-    });
+//        newLine += '</select>' +
+//                    '</td>' +
+//                    '<td><input type="date"  id="col' + i + '-2" class="form-control"/></td>' +
+//                    '<td><input type="text"  id="col' + i + '-3" class="form-control"/></td>' +
+//                    '<td><input type="text"  id="col' + i + '-4" class="form-control"/></td>' +
+//                    '<td><select class="form-control" id="col' + i + '-5">' +
+//                            '<option value="BC" label="British Columbia" selected="selected">BC</option>' +
+//                            '<option value="NB" label="New Brunswick">NB</option>' +
+//                            '<option value="NS" label="Nova Scotia">NS</option>' +
+//                            '<option value="ON" label="Ontario">ON</option>' +
+//                            '<option value="QC" label="Quebec">QC</option>' +
+//                            '<option value="NL" label="Newfoundland and Labrador">NL</option>' +
+//                            '<option value="OP" label="Other Provinces">OP</option>' +
+//                            '<option value="OC" label="Outside Canada">OC</option>' +
+//                        '</select>' +
+//                    '</td>' +
+//                     '<td><select class="form-control" id="col' + i + '-6">' +
+//                            '<option>Accommodation expenses</option>' +
+//                            '<option>Airplane ticket</option>' +
+//                            '<option>Computer equipments</option>' +
+//                            '<option selected="selected">Direct expense</option>' +
+//                            '<option>Displacement</option>' +
+//                            '<option>For each day</option>' +
+//                            '<option>Kilometric allowance</option>' +
+//                            '<option>Office expenses</option>' +
+//                            '<option>Representation expenses</option>' +
+//                            '<option>Telephone consultant</option>' +
+//                            '<option>Telephone leader</option>' +
+//                        '</select>' +
+//                    '</td>' +
+//                    '<td><input type="text"  id="col' + i + '-7" class="form-control"/></td>' +
+//                    '<td><input type="text"  id="col' + i + '-8" class="form-control"/></td>' +
+//                    '<td><input type="text"  id="col' + i + '-9" class="form-control"/></td>' +
+//                    '<td><input type="text"  id="col' + i + '-10" class="form-control"/></td>' +
+//                    '<td><input type="text" value="" id="col' + i + '-11" class="form-control" readonly/></td>' +
+//                    '<td><input type="text"  id="col' + i + '-12" class="form-control" readonly/></td>' +
+//                    '<td><input type="hidden" value="" id="col' + i + '-13" class="form-control" readonly/></td>' +
+//                    '<td><input type="hidden" id="col' + i + '-14"></td>' +
+//                  '</tr>';
+//    }
+//    fillArray();
+//    $("#newLine").html(newLine);
+//    updateProjects();
+//    //Update the total
+//    $(".form-control").focusout(function () {
+//        updateLineTotal();
+//    });
 
-    //lookupProject();
+//    //lookupProject();
 
-}
+//}
 /**
 *Fill in the array with the line information
 */
-function fillArray() {
-    if (count != 0) {
-        array[count - 1] = new Array(14);
-        for (var i = 0; i < count; i++) {
-            for (var j = 0; j < 15; j++) {
-                array[i][j] = $('#col' + i + '-' + j).val();
-            }
-        }
-    }
-}
+//function fillArray() {
+//    if (count != 0) {
+//        array[count - 1] = new Array(14);
+//        for (var i = 0; i < count; i++) {
+//            for (var j = 0; j < 15; j++) {
+//                array[i][j] = $('#col' + i + '-' + j).val();
+//            }
+//        }
+//    }
+//}
 /**
 *Update the old line with information from array
 */
-function updateProjects() {
-    if (count > 0) {
-        for (var i = 0; i < count ; i++) {
-            for (var j = 0; j < 15; j++) {
-                $('#col' + i + '-' + j).val(array[i][j]);
-            }
-            if (array[i][14] == "Deleted") {
-                $('#row' + i).hide();
-            }
-            if (array[i][5] == undefined || array[i][5] == null) {
-                $('#col' + i + '-' + 5).val("BC");
-            }
-            if (array[i][6] == undefined || array[i][6] == null) {
-                $('#col' + i + '-' + 6).val("Direct expense");
-            }
-            document.getElementById('col' + i + '-1').value = array[i][1];
+//function updateProjects() {
+//    if (count > 0) {
+//        for (var i = 0; i < count ; i++) {
+//            for (var j = 0; j < 15; j++) {
+//                $('#col' + i + '-' + j).val(array[i][j]);
+//            }
+//            if (array[i][14] == "Deleted") {
+//                $('#row' + i).hide();
+//            }
+//            if (array[i][5] == undefined || array[i][5] == null) {
+//                $('#col' + i + '-' + 5).val("BC");
+//            }
+//            if (array[i][6] == undefined || array[i][6] == null) {
+//                $('#col' + i + '-' + 6).val("Direct expense");
+//            }
+//            document.getElementById('col' + i + '-1').value = array[i][1];
 
-            document.getElementById('col' + i + '-2').value = array[i][2];
-        }
-    }
-}
+//            document.getElementById('col' + i + '-2').value = array[i][2];
+//        }
+//    }
+//}
 /**
 *Delete unwanted line
 */
-function deleteLineOfProject() {
-    for (var i = 0; i < count; i++) {
-        if ($('#col' + i + '-0').is(':checked')) {
-            $("#row" + i).hide();
-            array[i][14] = "Deleted";
-            $('#col' + i + '-' + 14).val("Deleted");
-            updateLineTotal();
-        }
-    }
-}
+//function deleteLineOfProject() {
+//    for (var i = 0; i < count; i++) {
+//        if ($('#col' + i + '-0').is(':checked')) {
+//            $("#row" + i).hide();
+//            array[i][14] = "Deleted";
+//            $('#col' + i + '-' + 14).val("Deleted");
+//            updateLineTotal();
+//        }
+//    }
+//}

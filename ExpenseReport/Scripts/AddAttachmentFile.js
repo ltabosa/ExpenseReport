@@ -1,8 +1,7 @@
 ﻿'use strict';
 
-//ExecuteOrDelayUntilScriptLoaded(initializePage, "sp.js");//adicionar na pagina de novo TS e tbm na pagina de edicao de TS
 ExecuteOrDelayUntilScriptLoaded(getWebProperties, "SP.js");//adicionar na pagina de edicao de timesheet
-var itCameFromNewTimesheet = false;
+
 
 function attachFileToMyTimesheet(userId, monthSubmit, yearSubmit) {
 
@@ -45,7 +44,6 @@ function attachFileToMyTimesheet(userId, monthSubmit, yearSubmit) {
 function onQueryFailedToTakeId(sender, args) {
     //alert('Query failed. Error: ' + args.get_message());
 }
-
 function onQuerySucceededAddFileToListMyTimesheet() {
     var listEnumerator = collListItem.getEnumerator();
     while (listEnumerator.moveNext()) {
@@ -54,7 +52,6 @@ function onQuerySucceededAddFileToListMyTimesheet() {
     }
     addFileToListMyTimesheet(itemId);
 }
-
 
 ///******************************************************************************
 function addFileToListMyTimesheet(itemId) {
@@ -67,19 +64,24 @@ function addFileToListMyTimesheet(itemId) {
         processUpload(file, listTitle, itemId,
           function () {
               console.log('Attachment file has been uploaded');
-              if (itCameFromNewTimesheet) {
-                  //window.location.href = '../Pages/Default.aspx';
+              if (itCameFromNewExpenseReport) {
                   window.location.href = '../Pages/EditExpenseReport.aspx?ID=' + itemId + '&Status=InProgress&Month=' + monthSubmit + '&Year=' + yearSubmit + '';
+              }else if (itCameFromApproverEdit) {
+                  window.location.href = '../Pages/ApproverEdit.aspx?ID=' + timesheetId + '&Status=InProgress&User=' + userNameForUrl + '&Month=' + month + '&Year=' + year;
+              } else if (itCameFromEditExpenseReport) {
+                  window.location.href = '../Pages/EditExpenseReport.aspx?ID=' + timesheetId + '&Status=InProgress&Month=' + month + '&Year=' + year;
               }
-              //location.reload();
           },
           function (sender, args) {
               console.log(args.get_message());
           });
     } else {
-        if (itCameFromNewTimesheet) {
-            //window.location.href = '../Pages/Default.aspx';
+        if (itCameFromNewExpenseReport) {
             window.location.href = '../Pages/EditExpenseReport.aspx?ID=' + itemId + '&Status=InProgress&Month=' + monthSubmit + '&Year=' + yearSubmit + '';
+        }else if (itCameFromApproverEdit) {
+            window.location.href = '../Pages/ApproverEdit.aspx?ID=' + timesheetId + '&Status=InProgress&User=' + userNameForUrl + '&Month=' + month + '&Year=' + year;
+        } else if (itCameFromEditExpenseReport) {
+            window.location.href = '../Pages/EditExpenseReport.aspx?ID=' + timesheetId + '&Status=InProgress&Month=' + month + '&Year=' + year;
         }
     }
     function processUpload(fileInput, listTitle, itemId, success, error) {
@@ -250,16 +252,13 @@ function getLastItemId(monthSubmit, yearSubmit, userId) {
         enumerator.moveNext();
         var item = enumerator.get_current();
         var id = item.get_id();
-        itCameFromNewTimesheet = true;
+        itCameFromNewExpenseReport = true;
         // do something with your result!!!!
-        //window.location.href = '../Pages/EditTimesheet.aspx?ID=' + id + '&Status="In Progress"&Month=' + monthSubmit + '&Year=' + yearSubmit + '';
-        //href='EditTimesheet.aspx?ID=" + oListItem.get_id() + "&Status=" + oListItem.get_item('Status') + "&Month=" + oListItem.get_item('Title') + "&Year=" + oListItem.get_item('Year') + "'
-        //alert(id + monthSubmit + yearSubmit);
+        
         addFileToListMyTimesheet(id);
 
     }, function () {
         //failure handling comes here
-        //alert("failed");
     });
 }
 

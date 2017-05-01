@@ -82,6 +82,20 @@
                     submitClicked = true;
 
                 }
+                if (((array[i][3] == null) || (array[i][3] == "")) && (array[i][14] !== "Deleted")) {
+                    errorMes += '<div class="alert alert-danger">' +
+                            '<strong>Atention!</strong> Please fill the field <strong>Recipient</strong>.' +
+                        '</div>';
+                    submitClicked = true;
+
+                }
+                if (((array[i][4] == null) || (array[i][4] == "")) && (array[i][14] !== "Deleted")) {
+                    errorMes += '<div class="alert alert-danger">' +
+                            '<strong>Atention!</strong> Please fill the field <strong>Description</strong>.' +
+                        '</div>';
+                    submitClicked = true;
+
+                }
             }
             if (sumCol == 0) {
                 errorMes = '<div class="alert alert-danger">' +
@@ -93,7 +107,7 @@
             if (errorMes == "") {
                 var warning = "";
                 warning = '<div class="alert alert-warning">' +
-                               '<strong>Wait!</strong> Your form is being submitted...' +
+                               '<strong>Wait!</strong> Your form is being submitted...<br/>It takes some time depending on the file size' +
                            '</div>';
                 $("#warningMsg").html(warning);
                 //save info in list

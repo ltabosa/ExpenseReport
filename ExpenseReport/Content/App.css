@@ -45,4 +45,8 @@ a:visited{
 .Numbers {
     text-align: center !important;
 }
+#gridColumnAlign{
+    background-color:white;
+    border:none;
+}
 

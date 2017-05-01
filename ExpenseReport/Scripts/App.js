@@ -62,14 +62,17 @@ function onQuerySucceeded(sender, args) {
         "<table class='table table-striped'>" +
             "<tr>" +
                 "<th class='col-md-1'></th>" +
-                "<th>Year</th>" +
-                "<th>Month</th>" +
-                "<th>Total</th>" +
-                "<th>Status</th>" +
+                "<th class='col-md-1'>Year</th>" +
+                "<th class='col-md-1'>Month</th>" +
+                "<th class='text-right col-md-1'>Total</th>" +
+                "<th class='col-md-1'>Status</th>" +
                  "<th class='col-md-1'></th>" +
+                 "<th id='gridColumnAlign'></th>" +
             "</tr>";
     while (listEnumerator.moveNext()) {
         var oListItem = listEnumerator.get_current();
+        var tempVal = oListItem.get_item('Total');
+        tempVal = tempVal.toFixed(2);
 
         listInfo += "<tr>";
 
@@ -78,7 +81,7 @@ function onQuerySucceeded(sender, args) {
         listInfo +=
           "<td>" + oListItem.get_item('Year') + "</td>" +
           "<td>" + oListItem.get_item('Month') + "</td>" +
-           "<td>" + oListItem.get_item('Total') + "</td>" +
+           "<td class='text-right'>" + tempVal + " $CAD</td>" +
            "<td>" + oListItem.get_item('Status') + "</td>" +
            "<td id='attachment" + oListItem.get_id() + "'></td>" +
         "</tr>";

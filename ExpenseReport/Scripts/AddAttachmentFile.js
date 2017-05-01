@@ -193,7 +193,8 @@ function getWebProperties() {
                 relativeUrl = attachmentFiles.itemAt(i).get_serverRelativeUrl();
                 var fileName = String(relativeUrl);
                 fileName = fileName.split("/");
-                fileName = fileName[6];
+                fileName = fileName[7]; //sii site
+                //fileName = fileName[6]; //personal site
                 html += "<p><a href='" + relativeUrl + "'>" + fileName + "</a>";
                 html += "<a onclick='deleteAttach(\"" + fileName + "\")' href='/'> Delete</a></p>";
             }
@@ -279,7 +280,7 @@ function updateLineTotal() {
                     sumLine += temp;
                     $('#col' + i + '-11').val(sumLine);
                 } else if (!$('#col' + i + '-' + j).val() == "") {
-                    $('#col' + i + '-' + j).val(0);
+                    $('#col' + i + '-' + j).val("0.00");
                 }
             }
             if (Number($('#col' + i + '-12').val()) >= 0) {
@@ -298,7 +299,8 @@ function updateLineTotal() {
             }
         }
     }
-    $('#totalHour').html(sumCol);
+    var sumColTotal = sumCol.toFixed(2);
+    $('#totalHour').html(sumColTotal + "$CAD");
 }
 
 /**
@@ -309,12 +311,19 @@ function updateProjects() {
         for (var i = 0; i < count ; i++) {
             for (var j = 0; j < 15; j++) {
                 $('#col' + i + '-' + j).val(array[i][j]);
+                if ((j > 6) && (j < 12)) {
+                    var tempVal = Number(array[i][j]);
+                    tempVal = tempVal.toFixed(2);
+                    if (tempVal>=0){
+                        $('#col' + i + '-' + j).val(tempVal);
+                    }
+                }
             }
             if (array[i][14] == "Deleted") {
                 $('#row' + i).hide();
             }
             if (array[i][5] == undefined || array[i][5] == null) {
-                $('#col' + i + '-' + 5).val("BC");
+                $('#col' + i + '-' + 5).val("QC");
             }
             if (array[i][6] == undefined || array[i][6] == null) {
                 $('#col' + i + '-' + 6).val("Direct expense");
@@ -339,12 +348,19 @@ function updateOldProjects() {
         for (var i = 0; i < count ; i++) {
             for (var j = 0; j < 15; j++) {
                 $('#col' + i + '-' + j).val(array[i][j]);
+                if ((j > 6) && (j < 12)) {
+                    var tempVal = Number(array[i][j]);
+                    tempVal = tempVal.toFixed(2);
+                    if (tempVal >= 0) {
+                        $('#col' + i + '-' + j).val(tempVal);
+                    }
+                }
             }
             if (array[i][14] == "Deleted") {
                 $('#row' + i).hide();
             }
             if (array[i][5] == undefined || array[i][5] == null) {
-                $('#col' + i + '-' + 5).val("BC");
+                $('#col' + i + '-' + 5).val("QC");
             }
             if (array[i][6] == undefined || array[i][6] == null) {
                 $('#col' + i + '-' + 6).val("Direct expense");
@@ -374,8 +390,8 @@ function updateOldProjects() {
 */
 function lookupProject() {
     var ctx = new SP.ClientContext.get_current();
-    //var siteUrl = 'https://siicanada.sharepoint.com/agency/direction/';
-    var siteUrl = 'https://leonardotabosa.sharepoint.com/Direction/';
+    var siteUrl = 'https://siicanada.sharepoint.com/agency/direction/';
+    //var siteUrl = 'https://leonardotabosa.sharepoint.com/Direction/';
     var context = new SP.AppContextSite(ctx, siteUrl);
     ctx.load(context.get_web());
     var oList = context.get_web().get_lists().getByTitle('Project-List');
@@ -417,8 +433,8 @@ function lookupProject() {
  * @param {type} args - The arguments.
 */
 function onQueryFailed(sender, args) {
-    SP.UI.Notify.addNotification('Request failed. ' + args.get_message() + '\n' +
-    args.get_stackTrace(), true);
+    //SP.UI.Notify.addNotification('Request failed. ' + args.get_message() + '\n' +
+    //args.get_stackTrace(), true);
 }
 /**
  * On the query succeeded. Lists all the projects
@@ -440,13 +456,16 @@ function onQueryLookupSucceeded(sender, args) {
         projectArray[countProjects][6] = oListItem.get_item('PNum');
         projectArray[countProjects][7] = oListItem.get_item('Amdt0');
         projectArray[countProjects][8] = oListItem.get_item('Bench');
-        projectArray[countProjects][9] = oListItem.get_item('Invoiced_x0020_Client');
-        projectArray[countProjects][10] = oListItem.get_item('Department');
+        projectArray[countProjects][9] = oListItem.get_item('Department');
+        projectArray[countProjects][10] = oListItem.get_item('Invoiced_x0020_Client').Label;
+        //projectArray[countProjects][10] = oListItem.get_item('Invoiced_x0020_Client');
+
         countProjects++;
     }
     newLine(count);
 
-    $('#totalHour').html(sumCol);
+    var sumColTotal = sumCol.toFixed(2);
+    $('#totalHour').html(sumColTotal + "$CAD");
     //console.log(projectArray);
     //$(".results").html(listInfo);
     //updateProjects();
@@ -475,11 +494,11 @@ function newLineOfProject() {
                     '<td><input type="text"  id="col' + i + '-3" class="form-control"/></td>' +
                     '<td><input type="text"  id="col' + i + '-4" class="form-control"/></td>' +
                     '<td><select class="form-control" id="col' + i + '-5">' +
-                            '<option value="BC" label="British Columbia" selected="selected">BC</option>' +
+                            '<option value="BC" label="British Columbia" >BC</option>' +
                             '<option value="NB" label="New Brunswick">NB</option>' +
                             '<option value="NS" label="Nova Scotia">NS</option>' +
                             '<option value="ON" label="Ontario">ON</option>' +
-                            '<option value="QC" label="Quebec">QC</option>' +
+                            '<option value="QC" label="Quebec" selected="selected">QC</option>' +
                             '<option value="NL" label="Newfoundland and Labrador">NL</option>' +
                             '<option value="OP" label="Other Provinces">OP</option>' +
                             '<option value="OC" label="Outside Canada">OC</option>' +
@@ -537,11 +556,11 @@ function newLine(rows) {
                     '<td><input type="text"  id="col' + i + '-3" class="form-control"/></td>' +
                     '<td><input type="text"  id="col' + i + '-4" class="form-control"/></td>' +
                     '<td><select class="form-control" id="col' + i + '-5">' +
-                            '<option value="BC" label="British Columbia" selected="selected">BC</option>' +
+                            '<option value="BC" label="British Columbia" >BC</option>' +
                             '<option value="NB" label="New Brunswick">NB</option>' +
                             '<option value="NS" label="Nova Scotia">NS</option>' +
                             '<option value="ON" label="Ontario">ON</option>' +
-                            '<option value="QC" label="Quebec">QC</option>' +
+                            '<option value="QC" label="Quebec" selected="selected">QC</option>' +
                             '<option value="NL" label="Newfoundland and Labrador">NL</option>' +
                             '<option value="OP" label="Other Provinces">OP</option>' +
                             '<option value="OC" label="Outside Canada">OC</option>' +

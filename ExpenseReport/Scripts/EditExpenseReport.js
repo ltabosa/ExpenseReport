@@ -242,7 +242,7 @@ function takeCurrentUser() {
     }
 
     function onRequestFailed(sender, args) {
-        alert('Error: ' + args.get_message());
+        //alert('Error: ' + args.get_message());
     }
 }
 

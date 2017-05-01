@@ -235,7 +235,7 @@ function ensureUserSuccess() {
  * @param {type} args - The arguments.
 */
 function onFail(sender, args) {
-    alert('Query failed. Error: ' + args.get_message());
+    //alert('Query failed. Error: ' + args.get_message());
 }
 /**
 *Check if exists something in statuslist for the month, year and user filtered

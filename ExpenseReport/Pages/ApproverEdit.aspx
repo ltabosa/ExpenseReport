@@ -92,19 +92,19 @@
             <table class="form-group table-bordered table-reflow">
                 <thead>
                     <tr>
-                        <th></th>
-                        <th class="col-xs-4">Project</th>
+                         <th></th>
+                        <th class="col-xs-2">Project</th>
                         <th class="col-xs-1">Date</th>
                         <th class="projectTotal col-xs-2">Recipient</th>
                         <th class="col-xs-2">Description</th>
                         <th class="col-xs-1">Province</th>
-                        <th class="col-xs-1">Expenses Type</th>
-                        <th>Amount $CAD</th>
-                        <th>Tip $CAD</th>
-                        <th>TPS $CAD</th>
-                        <th>TVQ $CAD</th>
-                        <th>Total $CAD</th>
-                        <th class="col-xs-2">Used Exchange Rate > $CAD</th>
+                        <th class="col-xs-1">Expense Type</th>
+                         <th class="Numbers">Amount $CAD</th>
+                        <th  class="Numbers">Tip $CAD</th>
+                        <th  class="Numbers">TPS $CAD</th>
+                        <th  class="Numbers">TVQ $CAD</th>
+                        <th  class="Numbers">Total $CAD</th>
+                        <th class="col-xs-1">Used Exchange Rate > $CAD</th>
                         <th class="notShow">Total</th>
                         <th class="notShow"></th>
                     </tr>

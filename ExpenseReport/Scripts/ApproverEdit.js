@@ -131,7 +131,7 @@ function ensureUserSuccess() {
 }
 
 function onFail(sender, args) {
-    alert('Query failed. Error: ' + args.get_message());
+    //alert('Query failed. Error: ' + args.get_message());
 }
 
 function fillArrayAndTakeCount(userId) {
@@ -321,11 +321,11 @@ function updateExpenseSheet(user) {
             oListItem.set_item('Description1', array[colCreated][4]);
             oListItem.set_item('Province', array[colCreated][5]);
             oListItem.set_item('ExpensesType', array[colCreated][6]);
-            oListItem.set_item('Amount', array[colCreated][7]);
-            oListItem.set_item('Tip', array[colCreated][8]);
-            oListItem.set_item('TPS', array[colCreated][9]);
-            oListItem.set_item('TVQ', array[colCreated][10]);
-            oListItem.set_item('Total', array[colCreated][11]);
+            oListItem.set_item('Amount', array[colCreated][7].toFixed(2));
+            oListItem.set_item('Tip', array[colCreated][8].toFixed(2));
+            oListItem.set_item('TPS', array[colCreated][9].toFixed(2));
+            oListItem.set_item('TVQ', array[colCreated][10].toFixed(2));
+            oListItem.set_item('Total', array[colCreated][11].toFixed(2));
             oListItem.set_item('ExchangeRate', array[colCreated][12]);
             oListItem.set_item('TotalAfterRate', array[colCreated][13]);
             oListItem.set_item('AssignedTo', user);

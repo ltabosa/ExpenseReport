@@ -66,19 +66,38 @@ function addFileToListMyTimesheet(itemId) {
               console.log('Attachment file has been uploaded');
               if (itCameFromNewExpenseReport) {
                   window.location.href = '../Pages/EditExpenseReport.aspx?ID=' + itemId + '&Status=InProgress&Month=' + monthSubmit + '&Year=' + yearSubmit + '';
-              }else if (itCameFromApproverEdit) {
+              } else if (itCameFromApproverEdit) {
                   window.location.href = '../Pages/ApproverEdit.aspx?ID=' + timesheetId + '&Status=InProgress&User=' + userNameForUrl + '&Month=' + month + '&Year=' + year;
               } else if (itCameFromEditExpenseReport) {
                   window.location.href = '../Pages/EditExpenseReport.aspx?ID=' + timesheetId + '&Status=InProgress&Month=' + month + '&Year=' + year;
               }
           },
           function (sender, args) {
+              var errorMes = '<div class="alert alert-danger">' + args.get_message() +'</div>';
+              $("#warningMsg").html(errorMes);
+
               console.log(args.get_message());
+
+              if (itCameFromNewExpenseReport) {
+                  setTimeout(function () {
+                      window.location.href = '../Pages/EditExpenseReport.aspx?ID=' + itemId + '&Status=InProgress&Month=' + monthSubmit + '&Year=' + yearSubmit + '';
+                  }, 5000);
+              } else if (itCameFromApproverEdit) {
+                  setTimeout(function () {
+                      window.location.href = '../Pages/ApproverEdit.aspx?ID=' + timesheetId + '&Status=InProgress&User=' + userNameForUrl + '&Month=' + month + '&Year=' + year;
+                  }, 5000);
+              } else if (itCameFromEditExpenseReport) {
+                  setTimeout(function () {
+                      window.location.href = '../Pages/EditExpenseReport.aspx?ID=' + timesheetId + '&Status=InProgress&Month=' + month + '&Year=' + year;
+                  }, 5000);
+              }
+
+
           });
     } else {
         if (itCameFromNewExpenseReport) {
             window.location.href = '../Pages/EditExpenseReport.aspx?ID=' + itemId + '&Status=InProgress&Month=' + monthSubmit + '&Year=' + yearSubmit + '';
-        }else if (itCameFromApproverEdit) {
+        } else if (itCameFromApproverEdit) {
             window.location.href = '../Pages/ApproverEdit.aspx?ID=' + timesheetId + '&Status=InProgress&User=' + userNameForUrl + '&Month=' + month + '&Year=' + year;
         } else if (itCameFromEditExpenseReport) {
             window.location.href = '../Pages/EditExpenseReport.aspx?ID=' + timesheetId + '&Status=InProgress&Month=' + month + '&Year=' + year;
@@ -255,7 +274,7 @@ function getLastItemId(monthSubmit, yearSubmit, userId) {
         var id = item.get_id();
         itCameFromNewExpenseReport = true;
         // do something with your result!!!!
-        
+
         addFileToListMyTimesheet(id);
 
     }, function () {
@@ -278,7 +297,9 @@ function updateLineTotal() {
                 var temp = Number($('#col' + i + '-' + j).val());
                 if (temp >= 0) {
                     sumLine += temp;
-                    $('#col' + i + '-11').val(sumLine);
+                    var tempVal = Number(sumLine);
+                    tempVal = sumLine.toFixed(2);
+                    $('#col' + i + '-11').val(tempVal);
                 } else if (!$('#col' + i + '-' + j).val() == "") {
                     $('#col' + i + '-' + j).val("0.00");
                 }
@@ -314,7 +335,7 @@ function updateProjects() {
                 if ((j > 6) && (j < 12)) {
                     var tempVal = Number(array[i][j]);
                     tempVal = tempVal.toFixed(2);
-                    if (tempVal>=0){
+                    if (tempVal >= 0) {
                         $('#col' + i + '-' + j).val(tempVal);
                     }
                 }

@@ -82,6 +82,7 @@
             <div class="col-xs-2">
                 <label for="customFileUploadControl">File input</label>
                 <input id="customFileUploadControl" type="file" />
+                <small>Maximum upload file size: 2MB</small>
             </div>
         </div>
 

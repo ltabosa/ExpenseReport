@@ -212,7 +212,7 @@ function getWebProperties() {
                 relativeUrl = attachmentFiles.itemAt(i).get_serverRelativeUrl();
                 var fileName = String(relativeUrl);
                 fileName = fileName.split("/");
-                fileName = fileName[7]; //sii site
+                fileName = fileName[fileName.length-1]; //sii site
                 //fileName = fileName[6]; //personal site
                 html += "<p><a href='" + relativeUrl + "'>" + fileName + "</a>";
                 html += "<a onclick='deleteAttach(\"" + fileName + "\")' href='/'> Delete</a></p>";

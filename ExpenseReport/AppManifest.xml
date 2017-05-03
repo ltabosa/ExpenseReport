@@ -3,7 +3,7 @@
 <App xmlns="http://schemas.microsoft.com/sharepoint/2012/app/manifest"
      Name="ExpenseReport"
      ProductID="{53e9ef82-64bf-480f-9de8-eddabdd3e1bc}"
-     Version="1.0.0.10"
+     Version="1.0.0.11"
      SharePointMinVersion="16.0.0.0"
 >
   <Properties>

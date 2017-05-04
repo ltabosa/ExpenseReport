@@ -324,7 +324,7 @@ function updateStatusList(user) {
 */
 function onQueryCreateMyTimesheet() {
     // return to MyTimesheet
-    attachFileToMyTimesheet(userId, monthSubmit, yearSubmit);
+    //attachFileToMyTimesheet(userId, monthSubmit, yearSubmit);
 }
 /**
 *Add new item in Expense Sheet

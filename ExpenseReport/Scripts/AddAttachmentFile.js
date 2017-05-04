@@ -73,8 +73,8 @@ function addFileToListMyTimesheet(itemId) {
               }
           },
           function (sender, args) {
-              var errorMes = '<div class="alert alert-danger">' + args.get_message() +'</div>';
-              $("#warningMsg").html(errorMes);
+              //var errorMes = '<div class="alert alert-danger">' + args.get_message() +'</div>';
+              //$("#warningMsg").html(errorMes);
 
               console.log(args.get_message());
 

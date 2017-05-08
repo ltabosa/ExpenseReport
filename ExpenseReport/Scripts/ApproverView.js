@@ -14,8 +14,8 @@ function retrieve() {
     camlQuery.set_viewXml('<View>' +
                             '<Query>' +
                                 '<OrderBy>' +
-                                   '<FieldRef Name=\'Year\' Ascending=\'TRUE\' />' +
-                                   '<FieldRef Name=\'MonthNumber\' Ascending=\'TRUE\' />' +
+                                   '<FieldRef Name=\'Year\' Ascending=\'FALSE\' />' +
+                                   '<FieldRef Name=\'MonthNumber\' Ascending=\'FALSE\' />' +
                                    '<FieldRef Name=\'Month\' Ascending=\'TRUE\' />' +
                                    '<FieldRef Name=\'AssignedTo\' Ascending=\'TRUE\' />' +
                                 '</OrderBy>' +
